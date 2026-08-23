@@ -1634,38 +1634,65 @@ function renderHistory(items){
 
 function generarBorrador(){
   const r = compute();
-  const partes = [];
+  const frases = [];
 
-  if(state.activo !== "Sin definir") partes.push(`Activo: ${state.activo}.`);
-  partes.push(`Análisis en ${state.padreTF} (externa) / ${state.hijoTF} (interna).`);
+  if(state.activo !== "Sin definir") frases.push(`Estás mirando ${state.activo}.`);
 
-  const padreDirTxt = state.padreDir !== "Sin definir" ? state.padreDir.toLowerCase() : "sin dirección definida";
-  const hijoDirTxt = state.hijoDir !== "Sin definir" ? state.hijoDir.toLowerCase() : "sin dirección definida";
-  partes.push(`Main Push de la externa ${padreDirTxt}, estructura interna ${hijoDirTxt}.`);
-
-  const locTxt = {construccion:"impulso todavía en construcción", expansion:"BOS en expansión", pullback:"en retroceso complejo"};
-  const locStatusNow = state.padreBosStatus === "antes" ? "construccion" : (state.padreComplexPB ? "pullback" : "expansion");
-  partes.push(`Localización: ${locTxt[locStatusNow]}. Alineación externa-interna: ${r.clasif.toLowerCase()}.`);
-
-  if(state.sesionActiva !== "Sin definir"){
-    partes.push(`Sesión activa: ${state.sesionActiva}.` + (state.nyRelacion !== "Sin definir" ? ` NY ${state.nyRelacion.toLowerCase()} respecto a Londres.` : ""));
+  function fraseEstadoNivel(bosStatus, complexPB, retrocesoEf, dir){
+    if(bosStatus === "antes"){
+      return "todavía dentro del impulso, sin haber roto estructura (BOS) todavía";
+    }
+    if(!complexPB){
+      return `ya rompiste estructura y estás en expansión, formando tu ${dir === "Alcista" ? "HH" : "LL"}`;
+    }
+    if(!retrocesoEf){
+      return "ya hiciste un retroceso complejo, con giro de estructura";
+    }
+    return "hiciste un retroceso complejo que además ya llegó a una zona de oferta/demanda eficiente";
   }
 
-  function criteriosPOI(prefix, ubic, rifc, liqPrev, liqPend, imb, keyLevel, ema){
+  if(state.padreDir !== "Sin definir"){
+    frases.push(`Tu estructura externa (${state.padreTF}) estaba ${state.padreDir.toLowerCase()}, y ${fraseEstadoNivel(state.padreBosStatus, state.padreComplexPB, state.padreRetrocesoEf, state.padreDir)}.`);
+  }
+
+  if(state.hijoDir !== "Sin definir"){
+    const alineada = state.hijoDir === state.padreDir;
+    const relacion = alineada
+      ? `alineada con la externa, también ${state.hijoDir.toLowerCase()}`
+      : `en contra de la externa, marcando ese giro típico del complex pullback, ${state.hijoDir.toLowerCase()}`;
+    frases.push(`Tu estructura interna (${state.hijoTF}) estaba ${relacion}, y ${fraseEstadoNivel(state.hijoBosStatus, state.hijoComplexPB, state.hijoRetrocesoEf, state.hijoDir)}.`);
+  }
+
+  if(state.hijoEstrInt && state.nietoDir !== "Sin definir"){
+    const alineadaConInterna = state.nietoDir === state.hijoDir;
+    const relacion = alineadaConInterna
+      ? `alineada con la interna, también ${state.nietoDir.toLowerCase()}`
+      : `en cambio bajaba en contra de la interna, ${state.nietoDir.toLowerCase()}`;
+    const conector = alineadaConInterna ? "Tu sub estructura" : "En cambio, tu sub estructura";
+    frases.push(`${conector} (${state.nietoTF}) estaba ${relacion}, y ${fraseEstadoNivel(state.nietoBosStatus, state.nietoComplexPB, state.nietoRetrocesoEf, state.nietoDir)}.`);
+  }
+
+  if(state.sesionActiva !== "Sin definir"){
+    frases.push(`Estabas parado en la sesión de ${state.sesionActiva}` + (state.nyRelacion !== "Sin definir" ? `, que ${state.nyRelacion.toLowerCase()} respecto a Londres` : "") + ".");
+  }
+
+  function fraseCasoPOI(nombreNivel, ubic, rifc, liqPrev, liqPend, imb, keyLevel, ema){
     const c = [];
-    if(rifc) c.push("RIFC");
+    if(rifc) c.push("vela RIFC");
     if(liqPrev) c.push("liquidez previa tomada");
     if(imb) c.push("imbalance posterior");
     if(liqPend) c.push("liquidez por inducir");
     if(keyLevel) c.push("Key Level");
     if(ema) c.push("EMA");
     if(ubic === "No definido" && c.length === 0) return null;
-    return `POI del ${prefix} (${ubic.toLowerCase()})` + (c.length ? `: ${c.join(", ")}.` : `, sin criterios de calidad todavía.`);
+    const ubicTxt = ubic !== "No definido" ? `en un punto ${ubic.toLowerCase()}` : "sin ubicación definida todavía";
+    return `Tu POI de la ${nombreNivel} estaba ${ubicTxt}` + (c.length ? `, con ${c.join(", ")}` : "") + ".";
   }
-  const poiPadreTxt = criteriosPOI("externa", state.poiPadreUbic, state.poiPadreRifc, state.poiPadreLiqPrev, state.poiPadreLiqPend, state.poiPadreImbalance, state.poiPadreKeyLevel, state.poiPadreEma);
-  const poiHijoTxt = criteriosPOI("interna", state.poiHijoUbic, state.poiHijoRifc, state.poiHijoLiqPrev, state.poiHijoLiqPend, state.poiHijoImbalance, state.poiHijoKeyLevel, state.poiHijoEma);
-  if(poiPadreTxt) partes.push(poiPadreTxt);
-  if(poiHijoTxt) partes.push(poiHijoTxt);
+  [
+    fraseCasoPOI("externa", state.poiPadreUbic, state.poiPadreRifc, state.poiPadreLiqPrev, state.poiPadreLiqPend, state.poiPadreImbalance, state.poiPadreKeyLevel, state.poiPadreEma),
+    fraseCasoPOI("interna", state.poiHijoUbic, state.poiHijoRifc, state.poiHijoLiqPrev, state.poiHijoLiqPend, state.poiHijoImbalance, state.poiHijoKeyLevel, state.poiHijoEma),
+    fraseCasoPOI("sub estructura", state.poiNietoUbic, state.poiNietoRifc, state.poiNietoLiqPrev, state.poiNietoLiqPend, state.poiNietoImbalance, state.poiNietoKeyLevel, state.poiNietoEma)
+  ].filter(Boolean).forEach(f => frases.push(f));
 
   if(state.liqTipoTrade !== "Sin definir"){
     const liqCriterios = [];
@@ -1679,12 +1706,13 @@ function generarBorrador(){
       if(state.liqContraBreakRetest) liqCriterios.push("break and retest");
       if(state.liqContraAsia) liqCriterios.push("Asia");
     }
-    partes.push(`Liquidez (${state.liqTipoTrade.toLowerCase()}): ${liqCriterios.length ? liqCriterios.join(", ") : "sin criterios todavía"}.`);
+    frases.push(`Ibas ${state.liqTipoTrade.toLowerCase()}, buscando ${liqCriterios.length ? liqCriterios.join(", ") : "liquidez que todavía no marcaste"}.`);
   }
 
-  partes.push(`Score actual: ${Math.round(r.final)}% (${r.final>=70?"setup fuerte":r.final>=45?"setup moderado":"evitar/esperar"}).`);
+  const veredictoTxt = r.final>=70 ? "un setup que se ve fuerte" : r.final>=45 ? "un setup moderado, para tomar con cautela" : "un panorama todavía flojo, mejor esperar";
+  frases.push(`Con todo esto, el score te da ${Math.round(r.final)}%: ${veredictoTxt}.`);
 
-  return partes.join(" ");
+  return frases.join(" ");
 }
 
 document.getElementById('draftBtn').addEventListener('click', ()=>{
