@@ -178,6 +178,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       <span id="analysis-progress-pct">0%</span>
     </div>
     <div class="analysis-progress-bar"><div class="analysis-progress-fill" id="analysis-progress-fill"></div></div>
+    <div id="guardado-indicator" style="font-size:10px;color:var(--text-dim);margin-top:6px;opacity:0;transition:opacity .3s ease;">Progreso guardado ✓</div>
   </div>
 
   <div class="loc-diagram-row">
@@ -696,8 +697,51 @@ document.querySelectorAll('[data-k]').forEach(el=>{
     const k = el.dataset.k;
     state[k] = el.type === 'checkbox' ? el.checked : el.value;
     render();
+    scheduleGuardarEstado();
   });
 });
+
+let guardarEstadoTimeout = null;
+function scheduleGuardarEstado(){
+  if(guardarEstadoTimeout) clearTimeout(guardarEstadoTimeout);
+  guardarEstadoTimeout = setTimeout(guardarEstadoActual, 800);
+}
+async function guardarEstadoActual(){
+  try{
+    await fetch('/api/state', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(state)
+    });
+    const indicator = document.getElementById('guardado-indicator');
+    if(indicator){
+      indicator.style.opacity = '1';
+      setTimeout(()=>{ indicator.style.opacity = '0'; }, 1500);
+    }
+  }catch(e){
+    console.error('No se pudo guardar el progreso', e);
+  }
+}
+async function restaurarEstadoGuardado(){
+  try{
+    const res = await fetch('/api/state');
+    if(!res.ok) return;
+    const { estado } = await res.json();
+    if(!estado) return;
+    Object.keys(estado).forEach(k=>{
+      if(!(k in state)) return;
+      state[k] = estado[k];
+      const el = document.querySelector('[data-k="'+k+'"]');
+      if(!el) return;
+      if(el.type === 'checkbox') el.checked = !!estado[k];
+      else el.value = estado[k];
+    });
+    render();
+  }catch(e){
+    console.error('No se pudo restaurar el progreso guardado', e);
+  }
+}
+
 document.querySelectorAll('[data-w]').forEach(el=>{
   el.addEventListener('input', ()=>{
     if(el.dataset.w === 'cap'){
@@ -1255,6 +1299,7 @@ document.getElementById('saveBtn').addEventListener('click', async ()=>{
 
 render();
 loadHistory();
+restaurarEstadoGuardado();
 </script>
 </body>
 </html>
