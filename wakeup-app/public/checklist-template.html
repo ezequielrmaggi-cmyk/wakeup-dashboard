@@ -1676,6 +1676,23 @@ function generarBorrador(){
     frases.push(`Estabas parado en la sesión de ${state.sesionActiva}` + (state.nyRelacion !== "Sin definir" ? `, que ${state.nyRelacion.toLowerCase()} respecto a Londres` : "") + ".");
   }
 
+  function fraseInduccion(){
+    const sesiones = {"Asia":"asia", "Londres":"londres", "NY":"ny"};
+    const suffixes = ["Acum","Fake","Inducir","Bos","Mitig"];
+    let mejorNombre = null, mejorPrefix = null, mejorCount = -1;
+    Object.entries(sesiones).forEach(([nombre, prefix])=>{
+      const c = suffixes.filter(suf => !!state[prefix+suf]).length;
+      if(c > mejorCount){ mejorCount = c; mejorNombre = nombre; mejorPrefix = prefix; }
+    });
+    if(mejorCount <= 0) return null;
+    const etiquetas = { Acum:"acumulaste liquidez", Fake:"metiste un fake", Inducir:"induciste y tocaste tu POI", Bos:"confirmaste el BOS interno", Mitig:"mitigaste la inducción" };
+    const pasos = suffixes.filter(suf => !!state[mejorPrefix+suf]).map(suf => etiquetas[suf]);
+    const completoTxt = mejorCount === 5 ? "Ciclo completo" : `${mejorCount}/5 pasos`;
+    return `En el ciclo de inducción trabajaste la sesión de ${mejorNombre} (${completoTxt}): ${pasos.join(", ")}.`;
+  }
+  const fInduccion = fraseInduccion();
+  if(fInduccion) frases.push(fInduccion);
+
   function fraseCasoPOI(nombreNivel, ubic, rifc, liqPrev, liqPend, imb, keyLevel, ema){
     const c = [];
     if(rifc) c.push("vela RIFC");
@@ -1686,7 +1703,8 @@ function generarBorrador(){
     if(ema) c.push("EMA");
     if(ubic === "No definido" && c.length === 0) return null;
     const ubicTxt = ubic !== "No definido" ? `en un punto ${ubic.toLowerCase()}` : "sin ubicación definida todavía";
-    return `Tu POI de la ${nombreNivel} estaba ${ubicTxt}` + (c.length ? `, con ${c.join(", ")}` : "") + ".";
+    const calidadTxt = c.length ? `, con una calidad de ${c.length}/6 criterios (${c.join(", ")})` : ", aunque todavía sin criterios de calidad marcados";
+    return `Tu POI de la ${nombreNivel} estaba ${ubicTxt}${calidadTxt}.`;
   }
   [
     fraseCasoPOI("externa", state.poiPadreUbic, state.poiPadreRifc, state.poiPadreLiqPrev, state.poiPadreLiqPend, state.poiPadreImbalance, state.poiPadreKeyLevel, state.poiPadreEma),
@@ -1706,7 +1724,7 @@ function generarBorrador(){
       if(state.liqContraBreakRetest) liqCriterios.push("break and retest");
       if(state.liqContraAsia) liqCriterios.push("Asia");
     }
-    frases.push(`Ibas ${state.liqTipoTrade.toLowerCase()}, buscando ${liqCriterios.length ? liqCriterios.join(", ") : "liquidez que todavía no marcaste"}.`);
+    frases.push(`Tu objetivo era liquidez ${state.liqTipoTrade.toLowerCase()}, buscando ${liqCriterios.length ? liqCriterios.join(", ") : "liquidez que todavía no marcaste"}.`);
   }
 
   const veredictoTxt = r.final>=70 ? "un setup que se ve fuerte" : r.final>=45 ? "un setup moderado, para tomar con cautela" : "un panorama todavía flojo, mejor esperar";
