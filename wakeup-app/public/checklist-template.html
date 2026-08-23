@@ -887,24 +887,48 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
     </div>
   </div>
 
-  <div id="export-card" style="position:fixed;left:-9999px;top:0;width:560px;background:#0A0618;padding:28px;font-family:'Poppins',sans-serif;color:#EDE9F7;border:1px solid #2C2054;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
-      <img id="export-logo" style="width:38px;height:38px;">
+  <div id="export-card" style="position:fixed;left:-9999px;top:0;width:1920px;min-height:1080px;background:
+      radial-gradient(ellipse 1400px 800px at 10% -10%, rgba(145,71,237,.22), transparent),
+      radial-gradient(ellipse 1100px 700px at 100% 0%, rgba(63,121,255,.16), transparent),
+      #0A0618;
+      padding:64px;font-family:'Poppins',sans-serif;color:#EDE9F7;box-sizing:border-box;position:relative;">
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
       <div>
-        <div style="font-weight:700;font-size:12px;letter-spacing:.1em;color:#9147ED;text-transform:uppercase;">WAKEUP · Registro de análisis</div>
-        <div id="export-date" style="font-size:11px;color:#9C90BE;"></div>
+        <div class="eyebrow" style="font-size:15px;font-weight:700;">WAKEUP · Registro de análisis</div>
+        <div id="export-date" style="font-size:17px;font-weight:500;color:#9C90BE;margin:8px 0 24px;"></div>
+        <div style="display:flex;align-items:baseline;gap:20px;">
+          <div id="export-score" style="font-size:92px;font-weight:800;line-height:1;letter-spacing:-.02em;
+            background:linear-gradient(100deg,#EDE9F7 0%,#EDE9F7 35%,#9147ED 65%,#3F79FF 100%);
+            -webkit-background-clip:text;background-clip:text;color:transparent;"></div>
+          <div id="export-verdict" style="font-weight:700;font-size:19px;padding:11px 26px;border-radius:28px;letter-spacing:.01em;"></div>
+        </div>
+      </div>
+      <img id="export-logo" style="width:72px;height:72px;opacity:.9;">
+    </div>
+
+    <div style="display:flex;gap:44px;margin-top:36px;align-items:flex-start;position:relative;z-index:1;">
+      <div style="flex:1.35;display:flex;flex-direction:column;gap:26px;min-width:0;">
+        <div>
+          <div class="eyebrow" style="font-size:14px;font-weight:700;">Estructura</div>
+          <div id="export-indicators-estructura" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:10px;"></div>
+        </div>
+        <div>
+          <div class="eyebrow" style="font-size:14px;font-weight:700;">Progreso</div>
+          <div id="export-indicators-rings" style="display:flex;flex-wrap:wrap;gap:18px;margin-top:10px;"></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:22px;min-width:0;">
+        <div>
+          <div class="eyebrow" style="font-size:14px;font-weight:700;">Resumen</div>
+          <div id="export-stats" style="font-size:18px;line-height:2.2;margin-top:10px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;"></div>
+        </div>
+        <div>
+          <div class="eyebrow" style="font-size:14px;font-weight:700;">Notas</div>
+          <div id="export-notes" style="font-size:16px;white-space:pre-wrap;line-height:1.7;color:#EDE9F7;margin-top:10px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;"></div>
+        </div>
       </div>
     </div>
-    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:10px;">
-      <div id="export-score" style="font-size:52px;font-weight:800;line-height:1;"></div>
-      <div id="export-verdict" style="font-weight:700;font-size:13px;padding:5px 12px;border-radius:20px;"></div>
-    </div>
-    <div style="height:1px;background:#2C2054;margin:14px 0;"></div>
-    <div id="export-indicators" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px;"></div>
-    <div style="height:1px;background:#2C2054;margin:14px 0;"></div>
-    <div id="export-stats" style="font-size:12px;line-height:1.9;"></div>
-    <div style="height:1px;background:#2C2054;margin:14px 0;"></div>
-    <div id="export-notes" style="font-size:12px;white-space:pre-wrap;line-height:1.6;color:#EDE9F7;"></div>
   </div>
 
   <div class="hist">
@@ -1703,31 +1727,36 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
   document.getElementById('export-logo').src = document.querySelector('.brand-logo').src;
   document.getElementById('export-date').textContent = (state.activo !== "Sin definir" ? state.activo+' · ' : '') + new Date().toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
   document.getElementById('export-score').textContent = Math.round(r.final)+'%';
-  document.getElementById('export-score').style.color = r.final>=70?'#4FB6A8':r.final>=45?'#D9A441':'#E1584A';
 
   const verdictEl = document.getElementById('export-verdict');
   if(r.final>=70){ verdictEl.textContent='Setup fuerte'; verdictEl.style.background='#1A3E3A'; verdictEl.style.color='#4FB6A8'; }
   else if(r.final>=45){ verdictEl.textContent='Setup moderado'; verdictEl.style.background='#4A3A1E'; verdictEl.style.color='#D9A441'; }
   else { verdictEl.textContent='Evitar / esperar'; verdictEl.style.background='#4A211C'; verdictEl.style.color='#E1584A'; }
 
-  const statsHtml = `
-    <div style="display:flex;justify-content:space-between;"><span style="color:#9C90BE;">Alineación</span><b>${r.clasif}</b></div>
-    <div style="display:flex;justify-content:space-between;"><span style="color:#9C90BE;">Sesión activa</span><b>${state.sesionActiva}</b></div>
-    <div style="display:flex;justify-content:space-between;"><span style="color:#9C90BE;">Estructura</span><b>${Math.round(r.sEstr)}/${weights.estructura}</b></div>
-    <div style="display:flex;justify-content:space-between;"><span style="color:#9C90BE;">POI (bonus)</span><b>${Math.round(r.sPoi)}/${weights.poi}</b></div>
-    <div style="display:flex;justify-content:space-between;"><span style="color:#9C90BE;">Liquidez</span><b>${Math.round(r.sLiq)}/${weights.liquidez}</b></div>
-    <div style="display:flex;justify-content:space-between;"><span style="color:#9C90BE;">Inducción</span><b>${Math.round(r.sInd)}/${weights.induccion}</b></div>
-  `;
+  function statRow(label, value, colorA, colorB, ultima){
+    return `<div style="display:flex;align-items:center;gap:14px;padding:10px 0;${ultima?'':'border-bottom:1px solid var(--border);'}">
+      <div style="width:34px;height:34px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,${colorA},${colorB});"></div>
+      <span style="color:#9C90BE;font-size:15px;letter-spacing:.02em;flex:1;">${label}</span>
+      <b style="font-size:20px;font-weight:700;">${value}</b>
+    </div>`;
+  }
+  const statsHtml =
+    statRow('Alineación', r.clasif, '#9147ED', '#3F79FF') +
+    statRow('Sesión activa', state.sesionActiva, '#3F79FF', '#4FB6A8') +
+    statRow('Estructura', Math.round(r.sEstr)+'/'+weights.estructura, '#4FB6A8', '#D9A441') +
+    statRow('POI (bonus)', Math.round(r.sPoi)+'/'+weights.poi, '#D9A441', '#E066A6') +
+    statRow('Liquidez', Math.round(r.sLiq)+'/'+weights.liquidez, '#E066A6', '#9147ED') +
+    statRow('Inducción', Math.round(r.sInd)+'/'+weights.induccion, '#3F79FF', '#9147ED', true);
   document.getElementById('export-stats').innerHTML = statsHtml;
   document.getElementById('export-notes').textContent = document.getElementById('notes').value || generarBorrador();
 
-  const indicatorsWrap = document.getElementById('export-indicators');
-  indicatorsWrap.innerHTML = '';
-  const idsParaClonar = [
-    'card-impulso-externa', 'ld-inner-wrap', 'ld-nieto-wrap',
-    'card-induccion', 'card-ciclodiario', 'card-poi-ext', 'card-poi-int', 'card-poi-nieto'
-  ];
-  idsParaClonar.forEach(id=>{
+  const wrapEstructura = document.getElementById('export-indicators-estructura');
+  const wrapRings = document.getElementById('export-indicators-rings');
+  wrapEstructura.innerHTML = '';
+  wrapRings.innerHTML = '';
+  const idsEstructura = ['card-impulso-externa', 'ld-inner-wrap', 'ld-nieto-wrap'];
+  const idsRings = ['card-induccion', 'card-ciclodiario', 'card-poi-ext', 'card-poi-int', 'card-poi-nieto'];
+  function clonarIndicador(id, destino){
     const original = document.getElementById(id);
     if(!original) return;
     if(window.getComputedStyle(original).display === 'none') return;
@@ -1736,11 +1765,13 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
     clone.style.position = 'static';
     clone.style.display = 'inline-block';
     clone.style.margin = '0';
-    indicatorsWrap.appendChild(clone);
-  });
+    destino.appendChild(clone);
+  }
+  idsEstructura.forEach(id => clonarIndicador(id, wrapEstructura));
+  idsRings.forEach(id => clonarIndicador(id, wrapRings));
 
   try{
-    const canvas = await html2canvas(document.getElementById('export-card'), {backgroundColor:'#0A0618', scale:2});
+    const canvas = await html2canvas(document.getElementById('export-card'), {backgroundColor:'#0A0618', scale:1, width:1920});
     const link = document.createElement('a');
     link.download = 'analisis-wakeup-' + Date.now() + '.png';
     link.href = canvas.toDataURL('image/png');
