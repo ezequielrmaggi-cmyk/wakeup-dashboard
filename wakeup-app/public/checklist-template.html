@@ -240,6 +240,33 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       </div>
       <p class="loc-diagram-caption">Estructura interna</p>
     </div>
+
+    <div class="loc-diagram-wrap" id="ld-nieto-wrap" style="display:none;position:relative;">
+      <button type="button" class="mini-dl-btn" data-capture="ld-nieto-wrap" data-filename="sub-estructura" title="Descargar imagen">⬇</button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <svg id="locDiagramNieto" viewBox="0 0 130 130" width="130" height="130">
+          <g id="ldn-flip">
+            <line id="ldn-line" x1="43" y1="40" x2="122" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
+            <rect id="ldn-zone" x="68" y="82" width="54" height="26" rx="3" fill="#D9A441" opacity="0" stroke="#D9A441" stroke-width="1.5"></rect>
+            <path id="ldn-orange" d="" fill="none" stroke="#D9A441" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle id="ldn-dot" cx="0" cy="0" r="5" fill="#E1584A"></circle>
+          </g>
+        </svg>
+        <div class="mini-ring">
+          <svg viewBox="0 0 120 120">
+            <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#3F79FF" stroke-dasharray="78.54 235.62" transform="rotate(0 60 60)"></circle>
+            <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4FB6A8" stroke-dasharray="78.54 235.62" transform="rotate(90 60 60)"></circle>
+            <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#D9A441" stroke-dasharray="78.54 235.62" transform="rotate(180 60 60)"></circle>
+            <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#E066A6" stroke-dasharray="78.54 235.62" transform="rotate(270 60 60)"></circle>
+            <circle class="ring-seg-fg" id="seg-estr-nieto-1" cx="60" cy="60" r="50" stroke="#3F79FF" stroke-dasharray="0 314.16" transform="rotate(0 60 60)"></circle>
+            <circle class="ring-seg-fg" id="seg-estr-nieto-2" cx="60" cy="60" r="50" stroke="#4FB6A8" stroke-dasharray="0 314.16" transform="rotate(90 60 60)"></circle>
+            <circle class="ring-seg-fg" id="seg-estr-nieto-3" cx="60" cy="60" r="50" stroke="#D9A441" stroke-dasharray="0 314.16" transform="rotate(180 60 60)"></circle>
+          </svg>
+          <div class="ring-center"><div class="ring-pct" id="ring-estr-nieto-pct">0%</div><div class="ring-label">avance</div></div>
+        </div>
+      </div>
+      <p class="loc-diagram-caption">Sub estructura</p>
+    </div>
   </div>
 
   <div class="rings">
@@ -356,7 +383,9 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 <select data-k="hijoBosStatus"><option value="antes">Antes del BOS</option><option value="despues">Después del BOS</option></select>
                 <span class="loc-value" id="hijoLocValue">Impulso en construcción</span>
               </div>
-              <label class="chk"><input type="checkbox" id="disp-hijoEstrInt" disabled><span class="stage-dot s2"></span> Estructura interna construida (BOS confirmado) <span class="mission">— según Localización</span></label>
+              <div class="lockable" id="hijoEstrInt-wrap">
+                <label class="chk"><input type="checkbox" data-k="hijoEstrInt"><span class="stage-dot s2"></span> Estructura interna identificada</label>
+              </div>
               <div class="lockable" id="hijoComplexPB-wrap">
                 <label class="chk"><input type="checkbox" data-k="hijoComplexPB"><span class="stage-dot s3"></span> Complex Pullback identificado (giro de la interna) <span class="mission">— requiere Después del BOS</span></label>
               </div>
@@ -365,6 +394,33 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
               </div>
             </div>
             <div class="gap-warn" id="gap-hijo" style="display:none;">Salto de etapa detectado en interna — resta puntos <button type="button" class="gap-reset" data-reset="hijoGapEver">reiniciar</button></div>
+
+            <div class="nest" id="nieto-nest-wrap">
+              <div class="level-label">Sub estructura
+                <select data-k="nietoTF" style="min-width:70px;margin-left:8px;"><option>M5</option><option>M1</option></select>
+              </div>
+              <div class="lockable" id="nietoMainPush-wrap">
+                <label class="chk"><input type="checkbox" data-k="nietoMainPushId"><span class="stage-dot s1"></span> Main Push identificado <span class="mission">— requiere dirección de la interna</span></label>
+              </div>
+              <div class="row" style="padding-left:24px;"><label style="font-size:11px;color:var(--text-dim);">Dirección</label>
+                <select data-k="nietoDir" id="nietoDirSelect"><option>Sin definir</option><option>Alcista</option><option>Bajista</option></select>
+              </div>
+              <p class="mission" id="nieto-dir-placeholder" style="margin:2px 0 0;">Elegí Alcista o Bajista arriba para continuar con el ciclo.</p>
+              <div id="nieto-post-dir-wrap" style="display:none;">
+                <div class="loc-badge" id="nietoLocBadge" style="margin:4px 0 10px;">
+                  <span class="loc-label">Localización (sub)</span>
+                  <select data-k="nietoBosStatus"><option value="antes">Antes del BOS</option><option value="despues">Después del BOS</option></select>
+                  <span class="loc-value" id="nietoLocValue">Impulso en construcción</span>
+                </div>
+                <div class="lockable" id="nietoComplexPB-wrap">
+                  <label class="chk"><input type="checkbox" data-k="nietoComplexPB"><span class="stage-dot s3"></span> Complex Pullback identificado (giro de la sub) <span class="mission">— requiere Después del BOS</span></label>
+                </div>
+                <div class="lockable" id="nietoRetrocesoEf-wrap">
+                  <label class="chk"><input type="checkbox" data-k="nietoRetrocesoEf"><span class="stage-dot s4"></span> Retroceso Eficiente <span class="mission">— requiere Complex Pullback confirmado</span></label>
+                </div>
+              </div>
+              <div class="gap-warn" id="gap-nieto" style="display:none;">Salto de etapa detectado en sub estructura — resta puntos <button type="button" class="gap-reset" data-reset="nietoGapEver">reiniciar</button></div>
+            </div>
           </div>
         </div>
       </div>
@@ -375,7 +431,8 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
 
           <div class="level-label">POI de la externa <span id="poi-padre-tf-label"></span> <span class="mission" id="poi-padre-status"></span></div>
           <div class="lockable" id="poi-padre-fields">
-            <div class="poi-diagram-wrap">
+            <div class="poi-diagram-wrap" id="poi-diagram-padre" style="position:relative;">
+              <button type="button" class="mini-dl-btn" style="top:4px;right:4px;" data-capture="poi-diagram-padre" data-filename="poi-externa" title="Descargar imagen">⬇</button>
               <svg viewBox="0 0 400 130" width="410" height="135">
                 <g id="poi-green-flip-padre">
                   <line x1="60" y1="40" x2="170" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
@@ -459,7 +516,8 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
           <div class="nest">
             <div class="level-label">POI de la interna <span id="poi-hijo-tf-label"></span> <span class="mission" id="poi-hijo-status"></span></div>
             <div class="lockable" id="poi-hijo-fields">
-              <div class="poi-diagram-wrap">
+              <div class="poi-diagram-wrap" id="poi-diagram-hijo" style="position:relative;">
+                <button type="button" class="mini-dl-btn" style="top:4px;right:4px;" data-capture="poi-diagram-hijo" data-filename="poi-interna" title="Descargar imagen">⬇</button>
                 <svg viewBox="0 0 360 130" width="370" height="135">
                   <g id="poi-blue-flip-hijo">
                     <line id="poi-blue-line-hijo" x1="47" y1="40" x2="132" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
@@ -535,6 +593,92 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                     <label><input type="checkbox" data-k="poiHijoEma50"> 50</label>
                     <label><input type="checkbox" data-k="poiHijoEma100"> 100</label>
                     <label><input type="checkbox" data-k="poiHijoEma200"> 200</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="nest" id="poi-nieto-nest-wrap">
+              <div class="level-label">POI de la sub <span id="poi-nieto-tf-label"></span> <span class="mission" id="poi-nieto-status"></span></div>
+              <div class="lockable" id="poi-nieto-fields">
+                <div class="poi-diagram-wrap" id="poi-diagram-nieto" style="position:relative;">
+                  <button type="button" class="mini-dl-btn" style="top:4px;right:4px;" data-capture="poi-diagram-nieto" data-filename="poi-sub-estructura" title="Descargar imagen">⬇</button>
+                  <svg viewBox="0 0 320 130" width="330" height="135">
+                    <g id="poi-orange-flip-nieto">
+                      <line id="poi-orange-line-nieto" x1="40" y1="40" x2="115" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
+                      <path id="poi-orange-nieto" d="" fill="none" stroke="#D9A441" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <rect id="poi-dec-nieto" x="0" y="0" width="42" height="18" rx="4" fill="none" stroke="#D9A441" stroke-width="1.5" opacity="0.3"></rect>
+                      <text id="poi-dec-nieto-label" x="0" y="0" text-anchor="middle" font-size="9" fill="var(--text-dim)">Dec</text>
+                      <rect id="poi-ext-nieto" x="0" y="0" width="42" height="18" rx="4" fill="none" stroke="#D9A441" stroke-width="1.5" opacity="0.3"></rect>
+                      <text id="poi-ext-nieto-label" x="0" y="0" text-anchor="middle" font-size="9" fill="var(--text-dim)">Ext</text>
+                      <circle id="poi-orange-dot-nieto" cx="0" cy="0" r="5" fill="#E1584A"></circle>
+                    </g>
+                    <text id="poi-star-keylevel-nieto" x="280" y="24" font-size="22" fill="#F5C542" opacity="0">★</text>
+                    <text id="poi-star-ema-nieto" x="304" y="24" font-size="22" fill="#7FD4E0" opacity="0">★</text>
+
+                    <g id="poi-seq-nieto" transform="translate(210,70)">
+                      <g id="poi-c1-nieto" opacity="0">
+                        <line x1="8" y1="30" x2="8" y2="75" stroke="#D9A441" stroke-width="2"></line>
+                        <rect x="0" y="45" width="16" height="16" fill="#D9A441"></rect>
+                      </g>
+                      <g id="poi-arrow-left-nieto" opacity="0">
+                        <line x1="0" y1="53" x2="-40" y2="53" stroke="#E1584A" stroke-width="3"></line>
+                        <path d="M-40,53 L-28,46 L-28,60 Z" fill="#E1584A"></path>
+                      </g>
+                      <g id="poi-c2-nieto" opacity="0">
+                        <rect x="-10" y="10" width="100" height="20" fill="#D9A441" opacity="0.45"></rect>
+                        <line x1="34" y1="-28" x2="34" y2="63" stroke="#D9A441" stroke-width="2"></line>
+                        <rect x="26" y="-15" width="16" height="76" fill="#D9A441"></rect>
+                      </g>
+                      <g id="poi-c3-nieto" opacity="0">
+                        <line x1="60" y1="-40" x2="60" y2="10" stroke="#D9A441" stroke-width="2"></line>
+                        <rect x="52" y="-25" width="16" height="16" fill="#D9A441"></rect>
+                      </g>
+                      <g id="poi-arrow-right-nieto" opacity="0">
+                        <line x1="68" y1="-17" x2="108" y2="-17" stroke="#E1584A" stroke-width="3"></line>
+                        <path d="M108,-17 L96,-24 L96,-10 Z" fill="#E1584A"></path>
+                      </g>
+                    </g>
+                  </svg>
+                  <div class="poi-badges">
+                    <span class="poi-badge" id="badge-nieto-rifc"><span class="stage-dot s1"></span>RIFC</span>
+                    <span class="poi-badge" id="badge-nieto-liqprev"><span class="stage-dot s2"></span>Liq. previa</span>
+                    <span class="poi-badge" id="badge-nieto-imb"><span class="stage-dot s4"></span>Imbalance</span>
+                    <span class="poi-badge" id="badge-nieto-liqind"><span class="stage-dot s3"></span>Liq. por inducir</span>
+                    <span class="poi-badge" id="badge-nieto-keylevel"><span class="stage-dot s5"></span>Key Level</span>
+                    <span class="poi-badge" id="badge-nieto-ema"><span class="stage-dot s6"></span>EMA</span>
+                  </div>
+                </div>
+                <div class="row"><label>Ubicación</label>
+                  <select data-k="poiNietoUbic" id="poiNietoUbicSelect"><option>No definido</option><option>Decisional</option><option>Extremo</option></select>
+                </div>
+                <div class="level-label" id="calidad-nieto" style="margin-top:6px;">Calidad <span class="mission" id="calidad-nieto-status"></span></div>
+                <div class="lockable" id="calidad-nieto-fields">
+                  <label class="chk"><input type="checkbox" data-k="poiNietoRifc"> Vela RIFC detectada</label>
+                  <label class="chk"><input type="checkbox" data-k="poiNietoLiqPrev"> Tomó liquidez previa</label>
+                  <label class="chk"><input type="checkbox" data-k="poiNietoImbalance"> Tiene imbalance posterior</label>
+                  <label class="chk"><input type="checkbox" data-k="poiNietoLiqPend"> Tiene liquidez por inducir previo a la mitigación</label>
+                  <label class="chk"><input type="checkbox" data-k="poiNietoKeyLevel"> Key Level</label>
+                  <div class="poi-detail" id="detail-nieto-keylevel" style="display:none;">
+                    <label><input type="checkbox" data-k="poiNietoKlAsia"> Asia (A/B/M)</label>
+                    <label><input type="checkbox" data-k="poiNietoKlOpenDia"> Open día</label>
+                    <label><input type="checkbox" data-k="poiNietoKlAyer"> Ayer (A/B)</label>
+                  </div>
+                  <label class="chk"><input type="checkbox" data-k="poiNietoEma"> EMA</label>
+                  <div class="poi-detail" id="detail-nieto-ema" style="display:none;">
+                    <div class="poi-detail-group">
+                      <span class="poi-detail-tag">Temporalidad</span>
+                      <label><input type="checkbox" data-k="poiNietoEmaD"> D</label>
+                      <label><input type="checkbox" data-k="poiNietoEmaH4"> H4</label>
+                      <label><input type="checkbox" data-k="poiNietoEmaH1"> H1</label>
+                    </div>
+                    <div class="poi-detail-group">
+                      <span class="poi-detail-tag">Período</span>
+                      <label><input type="checkbox" data-k="poiNietoEma20"> 20</label>
+                      <label><input type="checkbox" data-k="poiNietoEma50"> 50</label>
+                      <label><input type="checkbox" data-k="poiNietoEma100"> 100</label>
+                      <label><input type="checkbox" data-k="poiNietoEma200"> 200</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -683,6 +827,10 @@ const state = {
   activo:"Sin definir",
   padreTF:"H1", padreDir:"Sin definir", padreMainPushId:false, padreBosStatus:"antes", padreEstrInt:false, padreComplexPB:false, padreRetrocesoEf:false, padreGapEver:false,
   hijoTF:"M15", hijoDir:"Sin definir", hijoMainPushId:false, hijoBosStatus:"antes", hijoEstrInt:false, hijoComplexPB:false, hijoRetrocesoEf:false, hijoGapEver:false,
+  nietoTF:"M5", nietoDir:"Sin definir", nietoMainPushId:false, nietoBosStatus:"antes", nietoComplexPB:false, nietoRetrocesoEf:false, nietoGapEver:false,
+  poiNietoUbic:"No definido", poiNietoLiqPrev:false, poiNietoLiqPend:false, poiNietoRifc:false, poiNietoImbalance:false, poiNietoKeyLevel:false, poiNietoEma:false,
+  poiNietoKlAsia:false, poiNietoKlOpenDia:false, poiNietoKlAyer:false,
+  poiNietoEmaD:false, poiNietoEmaH4:false, poiNietoEmaH1:false, poiNietoEma20:false, poiNietoEma50:false, poiNietoEma100:false, poiNietoEma200:false,
   poiPadreUbic:"No definido", poiPadreLiqPrev:false, poiPadreLiqPend:false, poiPadreRifc:false, poiPadreImbalance:false, poiPadreKeyLevel:false, poiPadreEma:false,
   poiPadreKlAsia:false, poiPadreKlOpenDia:false, poiPadreKlAyer:false,
   poiPadreEmaD:false, poiPadreEmaH4:false, poiPadreEmaH1:false, poiPadreEma20:false, poiPadreEma50:false, poiPadreEma100:false, poiPadreEma200:false,
@@ -787,8 +935,14 @@ function compute(){
   if(state.padreComplexPB && state.hijoDir === state.padreDir && state.padreDir !== "Sin definir"){
     state.hijoDir = state.padreDir === "Alcista" ? "Bajista" : "Alcista";
   }
-  state.hijoEstrInt = (state.hijoBosStatus === "despues");
   if(state.hijoBosStatus !== "despues") state.hijoComplexPB = false;
+  if(state.hijoEstrInt && state.nietoDir === "Sin definir" && state.hijoDir !== "Sin definir"){
+    state.nietoDir = state.hijoDir;
+  }
+  if(state.hijoComplexPB && state.nietoDir === state.hijoDir && state.hijoDir !== "Sin definir"){
+    state.nietoDir = state.hijoDir === "Alcista" ? "Bajista" : "Alcista";
+  }
+  if(state.nietoBosStatus !== "despues") state.nietoComplexPB = false;
   if(state.padreDir === "Sin definir"){ state.padreEstrInt = false; state.padreComplexPB = false; state.padreRetrocesoEf = false; }
   if(state.poiPadreUbic === "No definido"){
     state.poiPadreRifc = false; state.poiPadreLiqPrev = false; state.poiPadreImbalance = false;
@@ -798,30 +952,40 @@ function compute(){
     state.poiHijoRifc = false; state.poiHijoLiqPrev = false; state.poiHijoImbalance = false;
     state.poiHijoLiqPend = false; state.poiHijoKeyLevel = false; state.poiHijoEma = false;
   }
+  if(state.poiNietoUbic === "No definido"){
+    state.poiNietoRifc = false; state.poiNietoLiqPrev = false; state.poiNietoImbalance = false;
+    state.poiNietoLiqPend = false; state.poiNietoKeyLevel = false; state.poiNietoEma = false;
+  }
   if(state.padreDir === "Sin definir"){ state.hijoMainPushId = false; state.hijoDir = "Sin definir"; }
   if(state.hijoDir === "Sin definir"){ state.hijoEstrInt = false; state.hijoComplexPB = false; state.hijoRetrocesoEf = false; }
+  if(!state.hijoEstrInt){ state.nietoMainPushId = false; state.nietoDir = "Sin definir"; }
+  if(state.nietoDir === "Sin definir"){ state.nietoComplexPB = false; state.nietoRetrocesoEf = false; }
   if(!state.padreComplexPB) state.padreRetrocesoEf = false;
   if(!state.hijoComplexPB) state.hijoRetrocesoEf = false;
+  if(!state.nietoComplexPB) state.nietoRetrocesoEf = false;
 
-  const itemW_estr = weights.estructura/8;
+  const itemW_estr = weights.estructura/11;
   const padreStages = [state.padreMainPushId, state.padreEstrInt, state.padreComplexPB, state.padreRetrocesoEf];
   const hijoStages = [state.hijoMainPushId, state.hijoEstrInt, state.hijoComplexPB, state.hijoRetrocesoEf];
+  const nietoStages = [state.nietoMainPushId, state.nietoComplexPB, state.nietoRetrocesoEf];
   if(hasGap(padreStages)) state.padreGapEver = true;
   if(hasGap(hijoStages)) state.hijoGapEver = true;
+  if(hasGap(nietoStages)) state.nietoGapEver = true;
 
   const sPadre = (state.padreMainPushId?itemW_estr:0) + (state.padreEstrInt?itemW_estr:0) +
                  (state.padreComplexPB?itemW_estr:0) + (state.padreRetrocesoEf?itemW_estr:0);
   const sHijo = (state.hijoMainPushId?itemW_estr:0) + (state.hijoEstrInt?itemW_estr:0) +
                 (state.hijoComplexPB?itemW_estr:0) + (state.hijoRetrocesoEf?itemW_estr:0);
-  const sEstr = sPadre + sHijo;
-  const gapPenalty = (state.padreGapEver?GAP_PENALTY:0) + (state.hijoGapEver?GAP_PENALTY:0);
+  const sNieto = (state.nietoMainPushId?itemW_estr:0) + (state.nietoComplexPB?itemW_estr:0) + (state.nietoRetrocesoEf?itemW_estr:0);
+  const sEstr = sPadre + sHijo + sNieto;
+  const gapPenalty = (state.padreGapEver?GAP_PENALTY:0) + (state.hijoGapEver?GAP_PENALTY:0) + (state.nietoGapEver?GAP_PENALTY:0);
 
   let clasif = "Incompleto";
   if(state.padreDir!=="Sin definir" && state.hijoDir!=="Sin definir"){
     clasif = state.padreDir===state.hijoDir ? "EN LÍNEA" : "OPUESTO (complex pullback)";
   }
 
-  const itemW_poi = weights.poi/10;
+  const itemW_poi = weights.poi/15;
   const sPoiPadre = state.padreComplexPB ? (
                     (state.poiPadreUbic!=="No definido"?itemW_poi:0) + (state.poiPadreRifc?itemW_poi:0) +
                     (state.poiPadreLiqPrev?itemW_poi:0) + (state.poiPadreLiqPend?itemW_poi:0) + (state.poiPadreImbalance?itemW_poi:0)
@@ -830,7 +994,11 @@ function compute(){
                    (state.poiHijoUbic!=="No definido"?itemW_poi:0) + (state.poiHijoRifc?itemW_poi:0) +
                    (state.poiHijoLiqPrev?itemW_poi:0) + (state.poiHijoLiqPend?itemW_poi:0) + (state.poiHijoImbalance?itemW_poi:0)
                    ) : 0;
-  const sPoi = sPoiPadre + sPoiHijo;
+  const sPoiNieto = state.nietoComplexPB ? (
+                   (state.poiNietoUbic!=="No definido"?itemW_poi:0) + (state.poiNietoRifc?itemW_poi:0) +
+                   (state.poiNietoLiqPrev?itemW_poi:0) + (state.poiNietoLiqPend?itemW_poi:0) + (state.poiNietoImbalance?itemW_poi:0)
+                   ) : 0;
+  const sPoi = sPoiPadre + sPoiHijo + sPoiNieto;
 
   const tradeType = state.liqTipoTrade === "Pro tendencia" ? "pro" : (state.liqTipoTrade === "Contra tendencia" ? "contra" : null);
   let sLiq = 0;
@@ -878,11 +1046,19 @@ function calcularProgresoAnalisis(){
   chk(state.hijoComplexPB);
   chk(state.hijoRetrocesoEf);
 
+  chk(state.nietoDir !== "Sin definir");
+  chk(state.nietoMainPushId);
+  chk(state.nietoComplexPB);
+  chk(state.nietoRetrocesoEf);
+
   chk(state.poiPadreUbic !== "No definido");
   [state.poiPadreRifc, state.poiPadreLiqPrev, state.poiPadreImbalance, state.poiPadreLiqPend, state.poiPadreKeyLevel, state.poiPadreEma].forEach(chk);
 
   chk(state.poiHijoUbic !== "No definido");
   [state.poiHijoRifc, state.poiHijoLiqPrev, state.poiHijoImbalance, state.poiHijoLiqPend, state.poiHijoKeyLevel, state.poiHijoEma].forEach(chk);
+
+  chk(state.poiNietoUbic !== "No definido");
+  [state.poiNietoRifc, state.poiNietoLiqPrev, state.poiNietoImbalance, state.poiNietoLiqPend, state.poiNietoKeyLevel, state.poiNietoEma].forEach(chk);
 
   chk(state.liqTipoTrade !== "Sin definir");
   if(state.liqTipoTrade === "Pro tendencia"){
@@ -931,6 +1107,10 @@ function render(){
   document.getElementById('hijoMainPush-wrap').classList.toggle('locked', state.padreDir === "Sin definir");
   document.getElementById('hijo-dir-placeholder').style.display = state.hijoDir !== "Sin definir" ? "none" : "block";
   document.getElementById('hijoRetrocesoEf-wrap').classList.toggle('locked', !state.hijoComplexPB);
+  document.getElementById('nieto-post-dir-wrap').style.display = state.nietoDir !== "Sin definir" ? "block" : "none";
+  document.getElementById('nietoMainPush-wrap').classList.toggle('locked', state.hijoDir === "Sin definir");
+  document.getElementById('nieto-dir-placeholder').style.display = state.nietoDir !== "Sin definir" ? "none" : "block";
+  document.getElementById('nietoRetrocesoEf-wrap').classList.toggle('locked', !state.nietoComplexPB);
   const locEl = document.getElementById('locValue');
   let locStatus;
   if(state.padreBosStatus === "antes"){
@@ -958,9 +1138,24 @@ function render(){
     hijoLocEl.textContent = 'BOS en Expansión';
     hijoLocEl.className = 'loc-value loc-expansion';
   }
-  document.getElementById('disp-hijoEstrInt').checked = state.hijoEstrInt;
   document.getElementById('hijoDirSelect').value = state.hijoDir;
   document.getElementById('hijoComplexPB-wrap').classList.toggle('locked', state.hijoBosStatus !== "despues");
+  document.getElementById('nieto-nest-wrap').style.opacity = state.hijoEstrInt ? '1' : '.4';
+  document.getElementById('nieto-nest-wrap').style.pointerEvents = state.hijoEstrInt ? 'auto' : 'none';
+
+  const nietoLocEl = document.getElementById('nietoLocValue');
+  if(state.nietoBosStatus === "antes"){
+    nietoLocEl.textContent = 'BOS en construcción';
+    nietoLocEl.className = 'loc-value loc-construccion';
+  } else if(state.nietoComplexPB){
+    nietoLocEl.textContent = 'Retroceso complejo';
+    nietoLocEl.className = 'loc-value loc-pullback';
+  } else {
+    nietoLocEl.textContent = 'BOS en Expansión';
+    nietoLocEl.className = 'loc-value loc-expansion';
+  }
+  document.getElementById('nietoDirSelect').value = state.nietoDir;
+  document.getElementById('nietoComplexPB-wrap').classList.toggle('locked', state.nietoBosStatus !== "despues");
 
   const GREEN = {
     construccion: "M10,120 L60,40 L100,110 L140,60",
@@ -1037,6 +1232,50 @@ function render(){
   } else {
     innerWrap.style.display = 'none';
   }
+
+  const nietoWrap = document.getElementById('ld-nieto-wrap');
+  if(state.hijoEstrInt){
+    nietoWrap.style.display = 'inline-block';
+    const NIETO = {
+      construccion: "M6,120 L43,40 L70,110 L95,60",
+      expansion: "M6,120 L43,40 L70,110 L108,15",
+      pullback: "M6,120 L43,40 L70,110 L108,15 L99,58",
+      eficiente: "M6,120 L43,40 L70,110 L108,15 L99,58 L92,95"
+    };
+    const NIETO_DOT = { construccion:[95,60], expansion:[108,15], pullback:[99,58], eficiente:[92,95] };
+    let nietoLocStatus;
+    if(state.nietoBosStatus === "antes"){
+      nietoLocStatus = 'construccion';
+    } else if(!state.nietoComplexPB){
+      nietoLocStatus = 'expansion';
+    } else {
+      nietoLocStatus = 'pullback';
+    }
+    if(state.nietoRetrocesoEf && nietoLocStatus === 'pullback') nietoLocStatus = 'eficiente';
+    document.getElementById('ldn-orange').setAttribute('d', NIETO[nietoLocStatus]);
+    document.getElementById('ldn-zone').setAttribute('opacity', nietoLocStatus === 'eficiente' ? '0.55' : (nietoLocStatus === 'pullback' ? '0.15' : '0'));
+    const [ndx,ndy] = NIETO_DOT[nietoLocStatus];
+    document.getElementById('ldn-dot').setAttribute('cx',ndx);
+    document.getElementById('ldn-dot').setAttribute('cy',ndy);
+    document.getElementById('ldn-flip').setAttribute('transform', state.nietoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
+
+    document.getElementById('poi-orange-nieto').setAttribute('d', NIETO[nietoLocStatus]);
+    document.getElementById('poi-orange-dot-nieto').setAttribute('cx',ndx);
+    document.getElementById('poi-orange-dot-nieto').setAttribute('cy',ndy);
+    document.getElementById('poi-orange-flip-nieto').setAttribute('transform', state.nietoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
+    const nietoExtOffset = state.hijoDir === "Bajista" ? 42 : 32;
+    const nietoDecOffset = nietoExtOffset - 22;
+    document.getElementById('poi-dec-nieto').setAttribute('x', ndx+10);
+    document.getElementById('poi-dec-nieto').setAttribute('y', clampY(ndy+nietoDecOffset));
+    document.getElementById('poi-dec-nieto-label').setAttribute('x', ndx+31);
+    document.getElementById('poi-dec-nieto-label').setAttribute('y', clampY(ndy+nietoDecOffset)+13);
+    document.getElementById('poi-ext-nieto').setAttribute('x', ndx+10);
+    document.getElementById('poi-ext-nieto').setAttribute('y', clampY(ndy+nietoExtOffset));
+    document.getElementById('poi-ext-nieto-label').setAttribute('x', ndx+31);
+    document.getElementById('poi-ext-nieto-label').setAttribute('y', clampY(ndy+nietoExtOffset)+13);
+  } else {
+    nietoWrap.style.display = 'none';
+  }
   document.getElementById('nyRelOut').textContent = state.nyRelacion;
   document.getElementById('sesionActivaOut').textContent = state.sesionActiva;
 
@@ -1050,12 +1289,16 @@ function render(){
   });
   document.getElementById('poi-padre-tf-label').textContent = '('+state.padreTF+')';
   document.getElementById('poi-hijo-tf-label').textContent = '('+state.hijoTF+')';
+  document.getElementById('poi-nieto-tf-label').textContent = '('+state.nietoTF+')';
   const poiPadreActive = state.padreComplexPB;
   document.getElementById('poi-padre-fields').classList.toggle('locked', !poiPadreActive);
   document.getElementById('poi-padre-status').textContent = poiPadreActive ? '' : '— se activa con Complex Pullback (externa)';
   const poiHijoActive = state.hijoComplexPB;
   document.getElementById('poi-hijo-fields').classList.toggle('locked', !poiHijoActive);
   document.getElementById('poi-hijo-status').textContent = poiHijoActive ? '' : '— se activa con Complex Pullback (interna)';
+  const poiNietoActive = state.nietoComplexPB;
+  document.getElementById('poi-nieto-fields').classList.toggle('locked', !poiNietoActive);
+  document.getElementById('poi-nieto-status').textContent = poiNietoActive ? '' : '— se activa con Complex Pullback (sub)';
 
   const calidadPadreActive = state.poiPadreUbic !== "No definido";
   document.getElementById('calidad-padre-fields').classList.toggle('locked', !calidadPadreActive);
@@ -1063,6 +1306,10 @@ function render(){
   const calidadHijoActive = state.poiHijoUbic !== "No definido";
   document.getElementById('calidad-hijo-fields').classList.toggle('locked', !calidadHijoActive);
   document.getElementById('calidad-hijo-status').textContent = calidadHijoActive ? '' : '— elegí Decisional o Extremo arriba';
+  const calidadNietoActive = state.poiNietoUbic !== "No definido";
+  document.getElementById('calidad-nieto-fields').classList.toggle('locked', !calidadNietoActive);
+  document.getElementById('calidad-nieto-status').textContent = calidadNietoActive ? '' : '— elegí Decisional o Extremo arriba';
+
 
   function updatePoiDiagram(prefix, ubicKey, rifcKey, liqPrevKey, liqPendKey, imbKey){
     const ubic = state[ubicKey];
@@ -1092,8 +1339,10 @@ function render(){
   }
   updatePoiDiagram('padre','poiPadreUbic','poiPadreRifc','poiPadreLiqPrev','poiPadreLiqPend','poiPadreImbalance');
   updatePoiDiagram('hijo','poiHijoUbic','poiHijoRifc','poiHijoLiqPrev','poiHijoLiqPend','poiHijoImbalance');
+  updatePoiDiagram('nieto','poiNietoUbic','poiNietoRifc','poiNietoLiqPrev','poiNietoLiqPend','poiNietoImbalance');
   document.getElementById('gap-padre').style.display = state.padreGapEver ? 'flex' : 'none';
   document.getElementById('gap-hijo').style.display = state.hijoGapEver ? 'flex' : 'none';
+  document.getElementById('gap-nieto').style.display = state.nietoGapEver ? 'flex' : 'none';
   document.getElementById('s-estructura').textContent = Math.round(r.sEstr)+'/'+weights.estructura;
   document.getElementById('s-poi').textContent = Math.round(r.sPoi)+'/'+weights.poi;
   document.getElementById('s-liquidez').textContent = Math.round(r.sLiq)+'/'+weights.liquidez;
@@ -1103,6 +1352,7 @@ function render(){
   const CIRC = 314.16;
   const QUARTER = 78.54;
   const FIFTH = 62.83;
+  const THIRD = 104.72;
 
   function setArc(id, len){
     document.getElementById(id).setAttribute('stroke-dasharray', len+' '+(CIRC-len));
@@ -1110,10 +1360,13 @@ function render(){
 
   const padreStagesArr = [state.padreMainPushId, state.padreEstrInt, state.padreComplexPB, state.padreRetrocesoEf];
   const hijoStagesArr = [state.hijoMainPushId, state.hijoEstrInt, state.hijoComplexPB, state.hijoRetrocesoEf];
+  const nietoStagesArr = [state.nietoMainPushId, state.nietoComplexPB, state.nietoRetrocesoEf];
   document.getElementById('ring-estr-padre-pct').textContent = Math.round((padreStagesArr.filter(Boolean).length/4)*100)+'%';
   document.getElementById('ring-estr-hijo-pct').textContent = Math.round((hijoStagesArr.filter(Boolean).length/4)*100)+'%';
+  document.getElementById('ring-estr-nieto-pct').textContent = Math.round((nietoStagesArr.filter(Boolean).length/3)*100)+'%';
   padreStagesArr.forEach((v,i)=> setArc('seg-estr-padre-'+(i+1), v?QUARTER:0));
   hijoStagesArr.forEach((v,i)=> setArc('seg-estr-hijo-'+(i+1), v?QUARTER:0));
+  nietoStagesArr.forEach((v,i)=> setArc('seg-estr-nieto-'+(i+1), v?THIRD:0));
 
   const sesionPrefixMap = {"Asia":"asia","Londres":"londres","NY":"ny"};
   const activePrefix = sesionPrefixMap[state.sesionActiva] || null;
@@ -1126,7 +1379,6 @@ function render(){
   });
   document.getElementById('ring-induccion-pct').textContent = Math.round((totalIndChecked/5)*100)+'%';
 
-  const THIRD = 104.72;
   setArc('seg-dia-asia', state.diaAsiaPaso ? THIRD : 0);
   setArc('seg-dia-londres', state.diaLondresPaso ? THIRD : 0);
   setArc('seg-dia-ny', state.diaNyPaso ? THIRD : 0);
