@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { whopsdk } from "@/lib/whop-sdk";
-import { supabase } from "@/lib/supabase";
+import { whopsdk } from "../../../lib/whop-sdk";
+import { supabase } from "../../../lib/supabase";
 
 async function getUserId(req: NextRequest): Promise<string | null> {
   try {
