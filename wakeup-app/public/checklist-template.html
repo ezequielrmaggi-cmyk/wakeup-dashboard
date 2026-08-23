@@ -154,25 +154,28 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
   </div>
   <p class="sub">Completá cada pilar antes de operar. El score se recalcula en vivo.</p>
 
-  <div class="loc-badge" style="margin-bottom:16px;">
-    <span class="loc-label">Activo</span>
-    <select data-k="activo">
-      <option>Sin definir</option>
-      <optgroup label="Forex">
-        <option>EURUSD</option>
-        <option>GBPUSD</option>
-        <option>AUDUSD</option>
-        <option>USDCAD</option>
-      </optgroup>
-      <optgroup label="Índices">
-        <option>NQ100</option>
-        <option>SP500</option>
-        <option>US30</option>
-      </optgroup>
-      <optgroup label="Metales">
-        <option>XAUUSD</option>
-      </optgroup>
-    </select>
+  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+    <div class="loc-badge" style="margin-bottom:0;">
+      <span class="loc-label">Activo</span>
+      <select data-k="activo">
+        <option>Sin definir</option>
+        <optgroup label="Forex">
+          <option>EURUSD</option>
+          <option>GBPUSD</option>
+          <option>AUDUSD</option>
+          <option>USDCAD</option>
+        </optgroup>
+        <optgroup label="Índices">
+          <option>NQ100</option>
+          <option>SP500</option>
+          <option>US30</option>
+        </optgroup>
+        <optgroup label="Metales">
+          <option>XAUUSD</option>
+        </optgroup>
+      </select>
+    </div>
+    <div id="pares-tabs" style="display:none;flex-wrap:wrap;gap:6px;"></div>
   </div>
 
   <div class="analysis-progress-wrap">
@@ -496,7 +499,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 <span class="poi-badge" id="badge-padre-keylevel"><span class="stage-dot s5"></span>Key Level</span>
                 <span class="poi-badge" id="badge-padre-ema"><span class="stage-dot s6"></span>EMA</span>
               </div>
-              <div class="mini-ring" style="margin-top:10px;">
+              <div class="mini-ring" id="mini-ring-poi-ext-wrap" style="margin-top:10px;">
                 <svg viewBox="0 0 120 120">
                   <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#3F79FF" stroke-dasharray="52.36 261.8" transform="rotate(0 60 60)"></circle>
                   <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4FB6A8" stroke-dasharray="52.36 261.8" transform="rotate(60 60 60)"></circle>
@@ -598,7 +601,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                   <span class="poi-badge" id="badge-hijo-keylevel"><span class="stage-dot s5"></span>Key Level</span>
                   <span class="poi-badge" id="badge-hijo-ema"><span class="stage-dot s6"></span>EMA</span>
                 </div>
-                <div class="mini-ring" style="margin-top:10px;">
+                <div class="mini-ring" id="mini-ring-poi-int-wrap" style="margin-top:10px;">
                   <svg viewBox="0 0 120 120">
                     <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#3F79FF" stroke-dasharray="52.36 261.8" transform="rotate(0 60 60)"></circle>
                     <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4FB6A8" stroke-dasharray="52.36 261.8" transform="rotate(60 60 60)"></circle>
@@ -700,7 +703,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                     <span class="poi-badge" id="badge-nieto-keylevel"><span class="stage-dot s5"></span>Key Level</span>
                     <span class="poi-badge" id="badge-nieto-ema"><span class="stage-dot s6"></span>EMA</span>
                   </div>
-                  <div class="mini-ring" style="margin-top:10px;">
+                  <div class="mini-ring" id="mini-ring-poi-nieto-wrap" style="margin-top:10px;">
                     <svg viewBox="0 0 120 120">
                       <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#3F79FF" stroke-dasharray="52.36 261.8" transform="rotate(0 60 60)"></circle>
                       <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4FB6A8" stroke-dasharray="52.36 261.8" transform="rotate(60 60 60)"></circle>
@@ -787,7 +790,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
         <div class="pillar-body">
 
           <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-            <div class="mini-ring">
+            <div class="mini-ring" id="mini-ring-induccion-wrap">
               <svg viewBox="0 0 120 120">
                 <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#3F79FF" stroke-dasharray="62.83 251.33" transform="rotate(0 60 60)"></circle>
                 <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4FB6A8" stroke-dasharray="62.83 251.33" transform="rotate(72 60 60)"></circle>
@@ -963,14 +966,49 @@ let SCORE_CAP = 90;
 const GAP_PENALTY = 12;
 const FLAG_PENALTY = 0;
 
-document.querySelector('[data-k="activo"]').addEventListener('change', (e)=>{
+function cambiarActivo(nuevoActivo){
+  if(nuevoActivo === state.activo) return;
   paresGuardados[state.activo] = snapshotActual();
-  const nuevoActivo = e.target.value;
   state.activo = nuevoActivo;
   aplicarSnapshot(paresGuardados[nuevoActivo]);
   sincronizarControlesConState();
+  const activoEl = document.querySelector('[data-k="activo"]');
+  if(activoEl) activoEl.value = nuevoActivo;
   render();
   scheduleGuardarEstado();
+}
+
+function tieneProgreso(nombrePar){
+  const snap = (nombrePar === state.activo) ? snapshotActual() : paresGuardados[nombrePar];
+  if(!snap) return false;
+  return FIELD_KEYS.some(k => JSON.stringify(snap[k]) !== JSON.stringify(DEFAULT_STATE[k]));
+}
+
+function renderParesTabs(){
+  const wrap = document.getElementById('pares-tabs');
+  if(!wrap) return;
+  const candidatos = new Set(Object.keys(paresGuardados));
+  if(state.activo !== 'Sin definir') candidatos.add(state.activo);
+  const activos = Array.from(candidatos).filter(p => p !== 'Sin definir' && tieneProgreso(p)).sort();
+  wrap.innerHTML = '';
+  if(!activos.length){ wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  activos.forEach(p=>{
+    const isActive = p === state.activo;
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.textContent = p;
+    tab.style.cssText = 'padding:5px 12px;border-radius:14px;font-size:11px;font-family:inherit;font-weight:600;cursor:pointer;letter-spacing:.02em;'
+      + 'border:1px solid ' + (isActive ? 'var(--brand2)' : 'var(--border)') + ';'
+      + 'background:' + (isActive ? 'rgba(63,121,255,.18)' : 'var(--panel)') + ';'
+      + 'color:' + (isActive ? 'var(--brand2)' : 'var(--text-dim)') + ';';
+    tab.addEventListener('click', ()=> cambiarActivo(p));
+    wrap.appendChild(tab);
+  });
+}
+
+document.querySelector('[data-k="activo"]').addEventListener('change', (e)=>{
+  cambiarActivo(e.target.value);
 });
 
 document.querySelectorAll('[data-k]:not([data-k="activo"])').forEach(el=>{
@@ -1204,6 +1242,7 @@ function calcularProgresoAnalisis(){
 
 function render(){
   const r = compute();
+  renderParesTabs();
   const progresoPct = calcularProgresoAnalisis();
   document.getElementById('analysis-progress-pct').textContent = progresoPct+'%';
   document.getElementById('analysis-progress-fill').style.width = progresoPct+'%';
@@ -1504,26 +1543,38 @@ function render(){
   const indPct = Math.round((totalIndChecked/5)*100)+'%';
   document.getElementById('ring-induccion-pct').textContent = indPct;
   document.getElementById('ring-induccion-mini-pct').textContent = indPct;
+  document.getElementById('card-induccion').style.display = totalIndChecked>0 ? '' : 'none';
+  document.getElementById('mini-ring-induccion-wrap').style.display = totalIndChecked>0 ? '' : 'none';
 
   setArc('seg-dia-asia', state.diaAsiaPaso ? THIRD : 0);
   setArc('seg-dia-londres', state.diaLondresPaso ? THIRD : 0);
   setArc('seg-dia-ny', state.diaNyPaso ? THIRD : 0);
   const diaCount = [state.diaAsiaPaso, state.diaLondresPaso, state.diaNyPaso].filter(Boolean).length;
   document.getElementById('ring-ciclodiario-pct').textContent = Math.round((diaCount/3)*100)+'%';
+  document.getElementById('card-ciclodiario').style.display = diaCount>0 ? '' : 'none';
 
   const SIXTH = 52.36;
   const poiExtItems = [state.poiPadreRifc, state.poiPadreLiqPrev, state.poiPadreImbalance, state.poiPadreLiqPend, state.poiPadreKeyLevel, state.poiPadreEma];
   const poiIntItems = [state.poiHijoRifc, state.poiHijoLiqPrev, state.poiHijoImbalance, state.poiHijoLiqPend, state.poiHijoKeyLevel, state.poiHijoEma];
   const poiSubItems = [state.poiNietoRifc, state.poiNietoLiqPrev, state.poiNietoImbalance, state.poiNietoLiqPend, state.poiNietoKeyLevel, state.poiNietoEma];
-  const poiExtPct = Math.round((poiExtItems.filter(Boolean).length/6)*100)+'%';
-  const poiIntPct = Math.round((poiIntItems.filter(Boolean).length/6)*100)+'%';
-  const poiSubPct = Math.round((poiSubItems.filter(Boolean).length/6)*100)+'%';
+  const poiExtCount = poiExtItems.filter(Boolean).length;
+  const poiIntCount = poiIntItems.filter(Boolean).length;
+  const poiSubCount = poiSubItems.filter(Boolean).length;
+  const poiExtPct = Math.round((poiExtCount/6)*100)+'%';
+  const poiIntPct = Math.round((poiIntCount/6)*100)+'%';
+  const poiSubPct = Math.round((poiSubCount/6)*100)+'%';
   document.getElementById('ring-poi-ext-pct').textContent = poiExtPct;
   document.getElementById('ring-poi-int-pct').textContent = poiIntPct;
   document.getElementById('ring-poi-nieto-pct').textContent = poiSubPct;
   document.getElementById('ring-poi-ext-mini-pct').textContent = poiExtPct;
   document.getElementById('ring-poi-int-mini-pct').textContent = poiIntPct;
   document.getElementById('ring-poi-nieto-mini-pct').textContent = poiSubPct;
+  document.getElementById('card-poi-ext').style.display = poiExtCount>0 ? '' : 'none';
+  document.getElementById('card-poi-int').style.display = poiIntCount>0 ? '' : 'none';
+  document.getElementById('card-poi-nieto').style.display = poiSubCount>0 ? '' : 'none';
+  document.getElementById('mini-ring-poi-ext-wrap').style.display = poiExtCount>0 ? '' : 'none';
+  document.getElementById('mini-ring-poi-int-wrap').style.display = poiIntCount>0 ? '' : 'none';
+  document.getElementById('mini-ring-poi-nieto-wrap').style.display = poiSubCount>0 ? '' : 'none';
   poiExtItems.forEach((v,i)=>{ setArc('seg-poi-ext-'+(i+1), v ? SIXTH : 0); setArc('seg-poi-ext-mini-'+(i+1), v ? SIXTH : 0); });
   poiIntItems.forEach((v,i)=>{ setArc('seg-poi-int-'+(i+1), v ? SIXTH : 0); setArc('seg-poi-int-mini-'+(i+1), v ? SIXTH : 0); });
   poiSubItems.forEach((v,i)=>{ setArc('seg-poi-nieto-'+(i+1), v ? SIXTH : 0); setArc('seg-poi-nieto-mini-'+(i+1), v ? SIXTH : 0); });
