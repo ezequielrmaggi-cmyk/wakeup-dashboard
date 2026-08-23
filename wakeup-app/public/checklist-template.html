@@ -357,7 +357,9 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 <span class="loc-value" id="hijoLocValue">Impulso en construcción</span>
               </div>
               <label class="chk"><input type="checkbox" id="disp-hijoEstrInt" disabled><span class="stage-dot s2"></span> Estructura interna construida (BOS confirmado) <span class="mission">— según Localización</span></label>
-              <label class="chk"><input type="checkbox" id="disp-hijoComplexPB" disabled><span class="stage-dot s3"></span> Complex Pullback identificado <span class="mission">— según Localización</span></label>
+              <div class="lockable" id="hijoComplexPB-wrap">
+                <label class="chk"><input type="checkbox" data-k="hijoComplexPB"><span class="stage-dot s3"></span> Complex Pullback identificado (giro de la interna) <span class="mission">— requiere Después del BOS</span></label>
+              </div>
               <div class="lockable" id="hijoRetrocesoEf-wrap">
                 <label class="chk"><input type="checkbox" data-k="hijoRetrocesoEf"><span class="stage-dot s4"></span> Retroceso Eficiente <span class="mission">— requiere Complex Pullback confirmado</span></label>
               </div>
@@ -786,7 +788,7 @@ function compute(){
     state.hijoDir = state.padreDir === "Alcista" ? "Bajista" : "Alcista";
   }
   state.hijoEstrInt = (state.hijoBosStatus === "despues");
-  state.hijoComplexPB = (state.hijoBosStatus === "despues");
+  if(state.hijoBosStatus !== "despues") state.hijoComplexPB = false;
   if(state.padreDir === "Sin definir"){ state.padreEstrInt = false; state.padreComplexPB = false; state.padreRetrocesoEf = false; }
   if(state.poiPadreUbic === "No definido"){
     state.poiPadreRifc = false; state.poiPadreLiqPrev = false; state.poiPadreImbalance = false;
@@ -958,7 +960,7 @@ function render(){
   }
   document.getElementById('disp-hijoEstrInt').checked = state.hijoEstrInt;
   document.getElementById('hijoDirSelect').value = state.hijoDir;
-  document.getElementById('disp-hijoComplexPB').checked = state.hijoComplexPB;
+  document.getElementById('hijoComplexPB-wrap').classList.toggle('locked', state.hijoBosStatus !== "despues");
 
   const GREEN = {
     construccion: "M10,120 L60,40 L100,110 L140,60",
