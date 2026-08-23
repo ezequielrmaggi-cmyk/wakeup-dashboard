@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     .upsert(
       {
         whop_user_id: userId,
-        datos: { historial: nuevoHistorial },
+        datos: { ...(existing?.datos as object), historial: nuevoHistorial },
         actualizado_en: new Date().toISOString(),
       },
       { onConflict: "whop_user_id" }
