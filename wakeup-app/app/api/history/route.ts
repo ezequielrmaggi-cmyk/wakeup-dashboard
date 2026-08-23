@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { whopsdk } from "../../../lib/whop-sdk";
-import { supabase } from "../../../lib/supabase";
+import { getSupabase } from "../../../lib/supabase";
 
 async function getUserId(req: NextRequest): Promise<string | null> {
   try {
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "no_autorizado" }, { status: 401 });
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("progreso_usuario")
     .select("datos")
     .eq("whop_user_id", userId)
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "datos_invalidos" }, { status: 400 });
   }
 
-  const { data: existing } = await supabase
+  const { data: existing } = await getSupabase()
     .from("progreso_usuario")
     .select("datos")
     .eq("whop_user_id", userId)
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
   const historialActual = (existing?.datos?.historial as unknown[]) || [];
   const nuevoHistorial = [nuevaEntrada, ...historialActual].slice(0, 200);
 
-  const { error: upsertError } = await supabase
+  const { error: upsertError } = await getSupabase()
     .from("progreso_usuario")
     .upsert(
       {
