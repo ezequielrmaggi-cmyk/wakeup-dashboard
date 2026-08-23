@@ -44,3 +44,24 @@ export async function POST(req: NextRequest) {
 
   const { data: existing } = await getSupabase()
     .from("progreso_usuario")
+    .select("datos")
+    .eq("whop_user_id", userId)
+    .maybeSingle();
+
+  const { error: upsertError } = await getSupabase()
+    .from("progreso_usuario")
+    .upsert(
+      {
+        whop_user_id: userId,
+        datos: { ...(existing?.datos as object), estado: nuevoEstado },
+        actualizado_en: new Date().toISOString(),
+      },
+      { onConflict: "whop_user_id" }
+    );
+
+  if (upsertError) {
+    return NextResponse.json({ error: "error_guardando" }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
+}
