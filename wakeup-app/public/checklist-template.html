@@ -994,10 +994,8 @@ function compute(){
                    (state.poiHijoUbic!=="No definido"?itemW_poi:0) + (state.poiHijoRifc?itemW_poi:0) +
                    (state.poiHijoLiqPrev?itemW_poi:0) + (state.poiHijoLiqPend?itemW_poi:0) + (state.poiHijoImbalance?itemW_poi:0)
                    ) : 0;
-  const sPoiNieto = state.nietoComplexPB ? (
-                   (state.poiNietoUbic!=="No definido"?itemW_poi:0) + (state.poiNietoRifc?itemW_poi:0) +
-                   (state.poiNietoLiqPrev?itemW_poi:0) + (state.poiNietoLiqPend?itemW_poi:0) + (state.poiNietoImbalance?itemW_poi:0)
-                   ) : 0;
+  const sPoiNieto = (state.poiNietoUbic!=="No definido"?itemW_poi:0) + (state.poiNietoRifc?itemW_poi:0) +
+                   (state.poiNietoLiqPrev?itemW_poi:0) + (state.poiNietoLiqPend?itemW_poi:0) + (state.poiNietoImbalance?itemW_poi:0);
   const sPoi = sPoiPadre + sPoiHijo + sPoiNieto;
 
   const tradeType = state.liqTipoTrade === "Pro tendencia" ? "pro" : (state.liqTipoTrade === "Contra tendencia" ? "contra" : null);
@@ -1296,9 +1294,8 @@ function render(){
   const poiHijoActive = state.hijoComplexPB;
   document.getElementById('poi-hijo-fields').classList.toggle('locked', !poiHijoActive);
   document.getElementById('poi-hijo-status').textContent = poiHijoActive ? '' : '— se activa con Complex Pullback (interna)';
-  const poiNietoActive = state.nietoComplexPB;
-  document.getElementById('poi-nieto-fields').classList.toggle('locked', !poiNietoActive);
-  document.getElementById('poi-nieto-status').textContent = poiNietoActive ? '' : '— se activa con Complex Pullback (sub)';
+  document.getElementById('poi-nieto-fields').classList.remove('locked');
+  document.getElementById('poi-nieto-status').textContent = '';
 
   const calidadPadreActive = state.poiPadreUbic !== "No definido";
   document.getElementById('calidad-padre-fields').classList.toggle('locked', !calidadPadreActive);
