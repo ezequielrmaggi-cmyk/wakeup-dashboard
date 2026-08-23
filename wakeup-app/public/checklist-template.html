@@ -195,7 +195,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
           <g id="ld-flip">
             <line x1="60" y1="40" x2="170" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
             <rect id="ld-zone" x="95" y="82" width="75" height="26" rx="3" fill="#E1584A" opacity="0" stroke="#E1584A" stroke-width="1.5"></rect>
-            <path id="ld-green" d="M10,120 L60,40 L100,110 L140,60" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path id="ld-green" d="M10,120 L60,40 L100,110 L140,60" fill="none" stroke="#22D3EE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
             <circle id="ld-dot" cx="140" cy="60" r="5" fill="#E1584A"></circle>
           </g>
         </svg>
@@ -223,7 +223,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
           <g id="ldi-flip">
             <line id="ldi-line" x1="47" y1="40" x2="132" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
             <rect id="ldi-zone" x="74" y="82" width="58" height="26" rx="3" fill="#E1584A" opacity="0" stroke="#E1584A" stroke-width="1.5"></rect>
-            <path id="ldi-blue" d="" fill="none" stroke="#3F79FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path id="ldi-blue" d="" fill="none" stroke="#9147ED" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
             <circle id="ldi-dot" cx="0" cy="0" r="5" fill="#E1584A"></circle>
           </g>
         </svg>
@@ -457,7 +457,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
               <svg viewBox="0 0 400 130" width="410" height="135">
                 <g id="poi-green-flip-padre">
                   <line x1="60" y1="40" x2="170" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
-                  <path id="poi-green-padre" d="" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path id="poi-green-padre" d="" fill="none" stroke="#22D3EE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
                   <rect id="poi-dec-padre" x="0" y="0" width="42" height="18" rx="4" fill="none" stroke="#9147ED" stroke-width="1.5" opacity="0.3"></rect>
                   <text id="poi-dec-padre-label" x="0" y="0" text-anchor="middle" font-size="9" fill="var(--text-dim)">Dec</text>
                   <rect id="poi-ext-padre" x="0" y="0" width="42" height="18" rx="4" fill="none" stroke="#9147ED" stroke-width="1.5" opacity="0.3"></rect>
@@ -559,7 +559,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 <svg viewBox="0 0 360 130" width="370" height="135">
                   <g id="poi-blue-flip-hijo">
                     <line id="poi-blue-line-hijo" x1="47" y1="40" x2="132" y2="40" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="4 3"></line>
-                    <path id="poi-blue-hijo" d="" fill="none" stroke="#3F79FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path id="poi-blue-hijo" d="" fill="none" stroke="#9147ED" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
                     <rect id="poi-dec-hijo" x="0" y="0" width="42" height="18" rx="4" fill="none" stroke="#3F79FF" stroke-width="1.5" opacity="0.3"></rect>
                     <text id="poi-dec-hijo-label" x="0" y="0" text-anchor="middle" font-size="9" fill="var(--text-dim)">Dec</text>
                     <rect id="poi-ext-hijo" x="0" y="0" width="42" height="18" rx="4" fill="none" stroke="#3F79FF" stroke-width="1.5" opacity="0.3"></rect>
@@ -896,13 +896,25 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
       <div>
         <div class="eyebrow" style="font-size:15px;font-weight:700;">WAKEUP · Registro de análisis</div>
-        <div id="export-date" style="font-size:17px;font-weight:500;color:#9C90BE;margin:8px 0 24px;"></div>
-        <div style="display:flex;align-items:baseline;gap:20px;">
-          <div id="export-score" style="font-size:92px;font-weight:800;line-height:1;letter-spacing:-.02em;color:#EDE9F7;"></div>
-          <div id="export-verdict" style="font-weight:700;font-size:19px;padding:11px 26px;border-radius:28px;letter-spacing:.01em;"></div>
-        </div>
+        <div id="export-date" style="font-size:17px;font-weight:500;color:#9C90BE;margin:8px 0 0;"></div>
       </div>
       <img id="export-logo" style="width:72px;height:72px;opacity:.9;">
+    </div>
+
+    <div style="display:flex;align-items:center;gap:36px;margin-top:24px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:32px 40px;">
+      <div style="position:relative;width:190px;height:190px;flex-shrink:0;">
+        <svg viewBox="0 0 190 190" style="width:190px;height:190px;transform:rotate(-90deg);">
+          <circle cx="95" cy="95" r="82" fill="none" stroke="var(--border)" stroke-width="12"></circle>
+          <circle id="export-gauge-arc" cx="95" cy="95" r="82" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="515.2" stroke-dashoffset="515.2"></circle>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div id="export-score" style="font-size:56px;font-weight:800;letter-spacing:-.02em;color:#EDE9F7;"></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:44px;font-weight:800;line-height:1.05;letter-spacing:-.01em;text-transform:uppercase;">SETUP<br><span id="export-verdict-headline"></span></div>
+        <div id="export-verdict-desc" style="font-size:17px;color:#9C90BE;margin-top:10px;max-width:420px;line-height:1.5;"></div>
+      </div>
     </div>
 
     <div style="display:flex;gap:44px;margin-top:36px;align-items:flex-start;position:relative;z-index:1;">
@@ -922,7 +934,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
           <div id="export-stats" style="font-size:18px;line-height:2.2;margin-top:10px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;"></div>
         </div>
         <div>
-          <div class="eyebrow" style="font-size:14px;font-weight:700;">Notas</div>
+          <div class="eyebrow" style="font-size:14px;font-weight:700;">Lectura del setup</div>
           <div id="export-notes" style="font-size:16px;white-space:pre-wrap;line-height:1.7;color:#EDE9F7;margin-top:10px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;"></div>
         </div>
       </div>
@@ -1771,29 +1783,55 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
   document.getElementById('export-logo').src = document.querySelector('.brand-logo').src;
   document.getElementById('export-date').textContent = (state.activo !== "Sin definir" ? state.activo+' · ' : '') + new Date().toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
   document.getElementById('export-score').textContent = Math.round(r.final)+'%';
-  document.getElementById('export-score').style.color = r.final>=70?'#4FB6A8':r.final>=45?'#D9A441':'#E1584A';
 
-  const verdictEl = document.getElementById('export-verdict');
-  if(r.final>=70){ verdictEl.textContent='Setup fuerte'; verdictEl.style.background='#1A3E3A'; verdictEl.style.color='#4FB6A8'; }
-  else if(r.final>=45){ verdictEl.textContent='Setup moderado'; verdictEl.style.background='#4A3A1E'; verdictEl.style.color='#D9A441'; }
-  else { verdictEl.textContent='Evitar / esperar'; verdictEl.style.background='#4A211C'; verdictEl.style.color='#E1584A'; }
-
-  function statRow(label, value, colorA, colorB, ultima){
+  const ICONOS = {
+    target: '<circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4.2"></circle><circle cx="12" cy="12" r="1"></circle>',
+    reloj: '<circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path>',
+    estructura: '<path d="M12 3v5M12 8L6 15M12 8l6 7M6 15v4M18 15v4M6 19h0M18 19h0"></path>',
+    regalo: '<rect x="4" y="9" width="16" height="11" rx="1"></rect><path d="M4 9h16M12 9v11M9.5 9c-1.5 0-2.5-1-2.5-2.2C7 5.6 8 5 9 5c1.3 0 2.4 1.4 3 4M14.5 9c1.5 0 2.5-1 2.5-2.2C17 5.6 16 5 15 5c-1.3 0-2.4 1.4-3 4"></path>',
+    gota: '<path d="M12 3s6.2 6.6 6.2 11a6.2 6.2 0 01-12.4 0C5.8 9.6 12 3 12 3z"></path>',
+    rayo: '<path d="M13 2 4 14h6l-1 8 9-12h-6z"></path>'
+  };
+  function statRow(label, value, icono, color, ultima){
     return `<div style="display:flex;align-items:center;gap:14px;padding:10px 0;${ultima?'':'border-bottom:1px solid var(--border);'}">
-      <div style="width:34px;height:34px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,${colorA},${colorB});"></div>
+      <div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;background:${color}22;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icono}</svg>
+      </div>
       <span style="color:#9C90BE;font-size:15px;letter-spacing:.02em;flex:1;">${label}</span>
       <b style="font-size:20px;font-weight:700;">${value}</b>
     </div>`;
   }
   const statsHtml =
-    statRow('Alineación', r.clasif, '#9147ED', '#3F79FF') +
-    statRow('Sesión activa', state.sesionActiva, '#3F79FF', '#4FB6A8') +
-    statRow('Estructura', Math.round(r.sEstr)+'/'+weights.estructura, '#4FB6A8', '#D9A441') +
-    statRow('POI (bonus)', Math.round(r.sPoi)+'/'+weights.poi, '#D9A441', '#E066A6') +
-    statRow('Liquidez', Math.round(r.sLiq)+'/'+weights.liquidez, '#E066A6', '#9147ED') +
-    statRow('Inducción', Math.round(r.sInd)+'/'+weights.induccion, '#3F79FF', '#9147ED', true);
+    statRow('Alineación', r.clasif, ICONOS.target, '#9147ED') +
+    statRow('Sesión activa', state.sesionActiva, ICONOS.reloj, '#3F79FF') +
+    statRow('Estructura', Math.round(r.sEstr)+'/'+weights.estructura, ICONOS.estructura, '#4FB6A8') +
+    statRow('POI (bonus)', Math.round(r.sPoi)+'/'+weights.poi, ICONOS.regalo, '#D9A441') +
+    statRow('Liquidez', Math.round(r.sLiq)+'/'+weights.liquidez, ICONOS.gota, '#E066A6') +
+    statRow('Inducción', Math.round(r.sInd)+'/'+weights.induccion, ICONOS.rayo, '#F5C542', true);
   document.getElementById('export-stats').innerHTML = statsHtml;
   document.getElementById('export-notes').textContent = document.getElementById('notes').value || generarBorrador();
+
+  const GAUGE_CIRC = 2 * Math.PI * 82;
+  const gaugeArc = document.getElementById('export-gauge-arc');
+  gaugeArc.setAttribute('stroke-dasharray', GAUGE_CIRC);
+  gaugeArc.setAttribute('stroke-dashoffset', GAUGE_CIRC * (1 - r.final/100));
+  gaugeArc.setAttribute('stroke', r.final>=70?'#4FB6A8':r.final>=45?'#D9A441':'#E1584A');
+
+  const headlineEl = document.getElementById('export-verdict-headline');
+  const descEl = document.getElementById('export-verdict-desc');
+  if(r.final>=70){
+    headlineEl.textContent = 'FUERTE';
+    headlineEl.style.color = '#4FB6A8';
+    descEl.textContent = 'Confluencias sólidas. Setup fuerte, pero no perfecto.';
+  } else if(r.final>=45){
+    headlineEl.textContent = 'MODERADO';
+    headlineEl.style.color = '#D9A441';
+    descEl.textContent = 'Hay confluencias, pero todavía faltan piezas para un setup ideal.';
+  } else {
+    headlineEl.textContent = 'DÉBIL';
+    headlineEl.style.color = '#E1584A';
+    descEl.textContent = 'Pocas confluencias todavía. Mejor esperar más confirmación.';
+  }
 
   const wrapEstructura = document.getElementById('export-indicators-estructura');
   const wrapRings = document.getElementById('export-indicators-rings');
