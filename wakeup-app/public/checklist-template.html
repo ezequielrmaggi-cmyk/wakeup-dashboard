@@ -985,7 +985,8 @@ function compute(){
     clasif = state.padreDir===state.hijoDir ? "EN LÍNEA" : "OPUESTO (complex pullback)";
   }
 
-  const itemW_poi = weights.poi/15;
+  const activePoiLevels = [state.poiPadreUbic!=="No definido", state.poiHijoUbic!=="No definido", state.poiNietoUbic!=="No definido"].filter(Boolean).length;
+  const itemW_poi = weights.poi/(5*(activePoiLevels||1));
   const sPoiPadre = state.padreComplexPB ? (
                     (state.poiPadreUbic!=="No definido"?itemW_poi:0) + (state.poiPadreRifc?itemW_poi:0) +
                     (state.poiPadreLiqPrev?itemW_poi:0) + (state.poiPadreLiqPend?itemW_poi:0) + (state.poiPadreImbalance?itemW_poi:0)
@@ -996,7 +997,7 @@ function compute(){
                    ) : 0;
   const sPoiNieto = (state.poiNietoUbic!=="No definido"?itemW_poi:0) + (state.poiNietoRifc?itemW_poi:0) +
                    (state.poiNietoLiqPrev?itemW_poi:0) + (state.poiNietoLiqPend?itemW_poi:0) + (state.poiNietoImbalance?itemW_poi:0);
-  const sPoi = sPoiPadre + sPoiHijo + sPoiNieto;
+  const sPoi = Math.min(weights.poi, sPoiPadre + sPoiHijo + sPoiNieto);
 
   const tradeType = state.liqTipoTrade === "Pro tendencia" ? "pro" : (state.liqTipoTrade === "Contra tendencia" ? "contra" : null);
   let sLiq = 0;
