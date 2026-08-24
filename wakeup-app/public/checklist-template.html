@@ -951,6 +951,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
 <script>
 const state = {
   activo:"Sin definir",
+  _padreFlipDone:false, _hijoFlipDone:false,
   padreTF:"H1", padreDir:"Sin definir", padreMainPushId:false, padreBosStatus:"antes", padreEstrInt:false, padreComplexPB:false, padreRetrocesoEf:false, padreGapEver:false,
   hijoTF:"M15", hijoDir:"Sin definir", hijoMainPushId:false, hijoBosStatus:"antes", hijoEstrInt:false, hijoComplexPB:false, hijoRetrocesoEf:false, hijoGapEver:false,
   nietoTF:"M5", nietoDir:"Sin definir", nietoMainPushId:false, nietoBosStatus:"antes", nietoComplexPB:false, nietoRetrocesoEf:false, nietoGapEver:false,
@@ -1126,15 +1127,25 @@ function compute(){
   if(state.padreEstrInt && state.hijoDir === "Sin definir" && state.padreDir !== "Sin definir"){
     state.hijoDir = state.padreDir;
   }
-  if(state.padreComplexPB && state.hijoDir === state.padreDir && state.padreDir !== "Sin definir"){
-    state.hijoDir = state.padreDir === "Alcista" ? "Bajista" : "Alcista";
+  if(state.padreComplexPB){
+    if(!state._padreFlipDone && state.hijoDir === state.padreDir && state.padreDir !== "Sin definir"){
+      state.hijoDir = state.padreDir === "Alcista" ? "Bajista" : "Alcista";
+    }
+    state._padreFlipDone = true;
+  } else {
+    state._padreFlipDone = false;
   }
   if(state.hijoBosStatus !== "despues") state.hijoComplexPB = false;
   if(state.hijoEstrInt && state.nietoDir === "Sin definir" && state.hijoDir !== "Sin definir"){
     state.nietoDir = state.hijoDir;
   }
-  if(state.hijoComplexPB && state.nietoDir === state.hijoDir && state.hijoDir !== "Sin definir"){
-    state.nietoDir = state.hijoDir === "Alcista" ? "Bajista" : "Alcista";
+  if(state.hijoComplexPB){
+    if(!state._hijoFlipDone && state.nietoDir === state.hijoDir && state.hijoDir !== "Sin definir"){
+      state.nietoDir = state.hijoDir === "Alcista" ? "Bajista" : "Alcista";
+    }
+    state._hijoFlipDone = true;
+  } else {
+    state._hijoFlipDone = false;
   }
   if(state.nietoBosStatus !== "despues") state.nietoComplexPB = false;
   if(state.padreDir === "Sin definir"){ state.padreEstrInt = false; state.padreComplexPB = false; state.padreRetrocesoEf = false; }
