@@ -274,15 +274,15 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
 
   <div class="loc-diagram-wrap" id="cv-wrap" style="position:relative;width:100%;box-sizing:border-box;margin-bottom:22px;">
     <button type="button" class="mini-dl-btn" data-capture="cv-wrap" data-filename="vista-conectada" title="Descargar imagen">⬇</button>
-    <svg viewBox="0 0 640 300" width="100%" style="max-width:640px;display:block;margin:0 auto;">
-      <g transform="translate(24,12) scale(2.1)">
+    <svg viewBox="0 0 720 420" width="100%" style="max-width:720px;display:block;margin:0 auto;">
+      <g id="cv-ext-wrap" transform="translate(24,80) scale(2.1)">
         <g id="cv-ext-flip">
           <line x1="10" y1="120" x2="160" y2="120" stroke="var(--text-dim)" stroke-width="0.6" stroke-dasharray="2 1.6"></line>
           <path id="cv-ext-path" d="" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           <circle id="cv-ext-dot" cx="0" cy="0" r="3" fill="#E1584A"></circle>
         </g>
       </g>
-      <g id="cv-int-wrap" transform="translate(300,50) scale(1.15)" style="display:none;">
+      <g id="cv-int-wrap" transform="translate(300,120) scale(1.05)" style="display:none;">
         <g id="cv-int-flip">
           <line x1="8" y1="118" x2="150" y2="118" stroke="var(--text-dim)" stroke-width="0.7" stroke-dasharray="2.4 1.8"></line>
           <rect id="cv-sugbox-2" x="0" y="0" width="0" height="0" fill="#4FB6A8" opacity="0"></rect>
@@ -290,7 +290,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
           <circle id="cv-int-dot" cx="0" cy="0" r="3.4" fill="#E1584A"></circle>
         </g>
       </g>
-      <g id="cv-sub-wrap" transform="translate(440,150) scale(0.85)" style="display:none;">
+      <g id="cv-sub-wrap" transform="translate(440,220) scale(0.78)" style="display:none;">
         <g id="cv-sub-flip">
           <line x1="8" y1="112" x2="120" y2="112" stroke="var(--text-dim)" stroke-width="0.8" stroke-dasharray="2.6 2"></line>
           <rect id="cv-sugbox-1" x="0" y="0" width="0" height="0" fill="#4FB6A8" opacity="0"></rect>
@@ -1370,6 +1370,10 @@ function chequeoSesion(){
   return { dentro, desde: ventana[0], hasta: ventana[1] };
 }
 
+function puntoFlip(lx, ly, dir){
+  return dir === "Bajista" ? [lx, 130 - ly] : [lx, ly];
+}
+
 function render(){
   const r = compute();
   renderParesTabs();
@@ -1464,6 +1468,10 @@ function render(){
   document.getElementById('ld-zone').setAttribute('opacity', locStatus === 'eficiente' ? '0.55' : (locStatus === 'pullback' ? '0.15' : '0'));
 
   document.getElementById('cv-ext-path').setAttribute('d', GREEN[locStatus]);
+  const EXT_TX = 24, EXT_TY = 80, EXT_SCALE = 2.1;
+  const [edx,edy] = puntoFlip(dx, dy, state.padreDir);
+  const extEndX = EXT_TX + edx*EXT_SCALE;
+  const extEndY = EXT_TY + edy*EXT_SCALE;
   document.getElementById('cv-ext-dot').setAttribute('cx',dx);
   document.getElementById('cv-ext-dot').setAttribute('cy',dy);
   document.getElementById('cv-ext-flip').setAttribute('transform', state.padreDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
@@ -1516,6 +1524,15 @@ function render(){
     document.getElementById('cv-int-dot').setAttribute('cy',idy);
     document.getElementById('cv-int-flip').setAttribute('transform', state.hijoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
 
+    const INT_SCALE = 1.05;
+    const [istx, isty] = puntoFlip(8, 120, state.hijoDir);
+    const intTx = extEndX - istx*INT_SCALE;
+    const intTy = extEndY - isty*INT_SCALE;
+    document.getElementById('cv-int-wrap').setAttribute('transform', `translate(${intTx},${intTy}) scale(${INT_SCALE})`);
+    const [iedx, iedy] = puntoFlip(idx, idy, state.hijoDir);
+    var intEndX = intTx + iedx*INT_SCALE;
+    var intEndY = intTy + iedy*INT_SCALE;
+
     document.getElementById('poi-blue-hijo').setAttribute('d', INNER[hijoLocStatus]);
     document.getElementById('poi-blue-dot-hijo').setAttribute('cx',idx);
     document.getElementById('poi-blue-dot-hijo').setAttribute('cy',idy);
@@ -1566,6 +1583,12 @@ function render(){
     document.getElementById('cv-sub-dot').setAttribute('cx',ndx);
     document.getElementById('cv-sub-dot').setAttribute('cy',ndy);
     document.getElementById('cv-sub-flip').setAttribute('transform', state.nietoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
+
+    const SUB_SCALE = 0.78;
+    const [sstx, ssty] = puntoFlip(6, 120, state.nietoDir);
+    const subTx = intEndX - sstx*SUB_SCALE;
+    const subTy = intEndY - ssty*SUB_SCALE;
+    document.getElementById('cv-sub-wrap').setAttribute('transform', `translate(${subTx},${subTy}) scale(${SUB_SCALE})`);
 
     document.getElementById('poi-orange-nieto').setAttribute('d', NIETO[nietoLocStatus]);
     document.getElementById('poi-orange-dot-nieto').setAttribute('cx',ndx);
