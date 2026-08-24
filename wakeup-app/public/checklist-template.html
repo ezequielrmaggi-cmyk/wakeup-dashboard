@@ -1303,7 +1303,7 @@ const ESCENARIO_IMAGENES = {
 
 function evaluarParEscenario(outer, inner, nombrePar){
   if(outer.dir === "Sin definir" || inner.dir === "Sin definir") return null;
-  const outerExpansion = outer.bosStatus === "despues" && !outer.complexPB;
+  const outerExpansion = outer.bosStatus === "despues" && outer.complexPB && !outer.retrocesoEf;
   const outerRecuperada = outer.complexPB && outer.retrocesoEf;
   const opuesto = inner.dir !== outer.dir;
   const alineado = inner.dir === outer.dir;
