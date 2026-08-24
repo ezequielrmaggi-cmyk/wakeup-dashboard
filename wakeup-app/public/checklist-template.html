@@ -272,43 +272,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
     </div>
   </div>
 
-  <div class="loc-diagram-wrap" id="cv-wrap" style="position:relative;width:100%;box-sizing:border-box;margin-bottom:22px;">
-    <button type="button" class="mini-dl-btn" data-capture="cv-wrap" data-filename="vista-conectada" title="Descargar imagen">⬇</button>
-    <svg viewBox="0 0 720 420" width="100%" style="max-width:720px;display:block;margin:0 auto;">
-      <g id="cv-ext-wrap" transform="translate(24,80) scale(2.1)">
-        <g id="cv-ext-flip">
-          <line x1="10" y1="120" x2="160" y2="120" stroke="var(--text-dim)" stroke-width="0.6" stroke-dasharray="2 1.6"></line>
-          <path id="cv-ext-path" d="" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-          <circle id="cv-ext-dot" cx="0" cy="0" r="3" fill="#E1584A"></circle>
-        </g>
-      </g>
-      <g id="cv-int-wrap" transform="translate(300,120) scale(1.05)" style="display:none;">
-        <g id="cv-int-flip">
-          <line x1="8" y1="118" x2="150" y2="118" stroke="var(--text-dim)" stroke-width="0.7" stroke-dasharray="2.4 1.8"></line>
-          <rect id="cv-sugbox-2" x="0" y="0" width="0" height="0" fill="#4FB6A8" opacity="0"></rect>
-          <path id="cv-int-path" d="" fill="none" stroke="#9147ED" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
-          <circle id="cv-int-dot" cx="0" cy="0" r="3.4" fill="#E1584A"></circle>
-        </g>
-      </g>
-      <g id="cv-sub-wrap" transform="translate(440,220) scale(0.78)" style="display:none;">
-        <g id="cv-sub-flip">
-          <line x1="8" y1="112" x2="120" y2="112" stroke="var(--text-dim)" stroke-width="0.8" stroke-dasharray="2.6 2"></line>
-          <rect id="cv-sugbox-1" x="0" y="0" width="0" height="0" fill="#4FB6A8" opacity="0"></rect>
-          <path id="cv-sub-path" d="" fill="none" stroke="#D9A441" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path>
-          <circle id="cv-sub-dot" cx="0" cy="0" r="3.8" fill="#E1584A"></circle>
-        </g>
-      </g>
-    </svg>
-    <div style="display:flex;justify-content:center;gap:22px;margin-top:6px;flex-wrap:wrap;">
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);"><span style="width:10px;height:10px;border-radius:50%;background:#22D3EE;display:inline-block;"></span>Externa</span>
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);"><span style="width:10px;height:10px;border-radius:50%;background:#9147ED;display:inline-block;"></span>Interna</span>
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);"><span style="width:10px;height:10px;border-radius:50%;background:#D9A441;display:inline-block;"></span>Sub estructura</span>
-    </div>
-    <p class="loc-diagram-caption">Vista conectada</p>
-  </div>
-
-  <div id="sugerencias-wrap" style="display:none;flex-direction:column;gap:10px;margin-bottom:22px;"></div>
-
   <div class="rings">
     <div class="ring-card" id="card-induccion">
       <svg viewBox="0 0 120 120">
@@ -1322,58 +1285,6 @@ function calcularProgresoAnalisis(){
   return Math.round((done/total)*100);
 }
 
-function evaluarParEstructura(outer, inner, nombreOuter, nombreInner){
-  if(outer.dir === "Sin definir" || inner.dir === "Sin definir") return null;
-  const outerExpansion = outer.bosStatus === "despues" && !outer.complexPB;
-  const outerRecuperada = outer.complexPB && outer.retrocesoEf;
-  const opuesto = inner.dir !== outer.dir;
-  const alineado = inner.dir === outer.dir;
-  const accion = inner.dir === "Alcista" ? "Comprar" : "Vender";
-  const color = inner.dir === "Alcista" ? "#4FB6A8" : "#E1584A";
-
-  if(outerExpansion && opuesto){
-    return {
-      accion, color, nivel: nombreInner,
-      texto: `${accion} en línea con la estructura ${nombreInner} hasta hacer el retroceso eficiente de la estructura ${nombreOuter} ${outer.dir.toLowerCase()}.`
-    };
-  }
-  if(outerRecuperada && alineado){
-    return {
-      accion, color, nivel: nombreInner,
-      texto: `${accion} en línea con la estructura ${nombreInner}, acompañando la intención de ${nombreOuter} de hacer un nuevo ${outer.dir === "Alcista" ? "HH" : "LL"}.`
-    };
-  }
-  return null;
-}
-
-function calcularSugerencias(){
-  const externaObj = { dir: state.padreDir, bosStatus: state.padreBosStatus, complexPB: state.padreComplexPB, retrocesoEf: state.padreRetrocesoEf };
-  const internaObj = { dir: state.hijoDir, bosStatus: state.hijoBosStatus, complexPB: state.hijoComplexPB, retrocesoEf: state.hijoRetrocesoEf };
-  const subObj = { dir: state.nietoDir, bosStatus: state.nietoBosStatus, complexPB: state.nietoComplexPB, retrocesoEf: state.nietoRetrocesoEf };
-  const sugerencias = [];
-  if(state.hijoEstrInt){
-    const s1 = evaluarParEstructura(internaObj, subObj, "Interna", "Sub");
-    if(s1) sugerencias.push(s1);
-  }
-  const s2 = evaluarParEstructura(externaObj, internaObj, "Externa", "Interna");
-  if(s2) sugerencias.push(s2);
-  return sugerencias;
-}
-
-function chequeoSesion(){
-  const ventanas = { Asia:[21,22], Londres:[4,5], NY:[10,12] };
-  const ventana = ventanas[state.sesionActiva];
-  if(!ventana) return null;
-  const ahoraUTC = new Date();
-  const horaLocal = (ahoraUTC.getUTCHours() - 3 + 24) % 24;
-  const dentro = horaLocal >= ventana[0] && horaLocal < ventana[1];
-  return { dentro, desde: ventana[0], hasta: ventana[1] };
-}
-
-function puntoFlip(lx, ly, dir){
-  return dir === "Bajista" ? [lx, 130 - ly] : [lx, ly];
-}
-
 function render(){
   const r = compute();
   renderParesTabs();
@@ -1467,15 +1378,6 @@ function render(){
   document.getElementById('ld-flip').setAttribute('transform', state.padreDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
   document.getElementById('ld-zone').setAttribute('opacity', locStatus === 'eficiente' ? '0.55' : (locStatus === 'pullback' ? '0.15' : '0'));
 
-  document.getElementById('cv-ext-path').setAttribute('d', GREEN[locStatus]);
-  const EXT_TX = 24, EXT_TY = 80, EXT_SCALE = 2.1;
-  const [edx,edy] = puntoFlip(dx, dy, state.padreDir);
-  const extEndX = EXT_TX + edx*EXT_SCALE;
-  const extEndY = EXT_TY + edy*EXT_SCALE;
-  document.getElementById('cv-ext-dot').setAttribute('cx',dx);
-  document.getElementById('cv-ext-dot').setAttribute('cy',dy);
-  document.getElementById('cv-ext-flip').setAttribute('transform', state.padreDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
-
   document.getElementById('poi-green-padre').setAttribute('d', GREEN[locStatus]);
   document.getElementById('poi-green-dot-padre').setAttribute('cx',dx);
   document.getElementById('poi-green-dot-padre').setAttribute('cy',dy);
@@ -1518,21 +1420,6 @@ function render(){
     document.getElementById('ldi-dot').setAttribute('cy',idy);
     document.getElementById('ldi-flip').setAttribute('transform', state.hijoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
 
-    document.getElementById('cv-int-wrap').style.display = 'block';
-    document.getElementById('cv-int-path').setAttribute('d', INNER[hijoLocStatus]);
-    document.getElementById('cv-int-dot').setAttribute('cx',idx);
-    document.getElementById('cv-int-dot').setAttribute('cy',idy);
-    document.getElementById('cv-int-flip').setAttribute('transform', state.hijoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
-
-    const INT_SCALE = 1.05;
-    const [istx, isty] = puntoFlip(8, 120, state.hijoDir);
-    const intTx = extEndX - istx*INT_SCALE;
-    const intTy = extEndY - isty*INT_SCALE;
-    document.getElementById('cv-int-wrap').setAttribute('transform', `translate(${intTx},${intTy}) scale(${INT_SCALE})`);
-    const [iedx, iedy] = puntoFlip(idx, idy, state.hijoDir);
-    var intEndX = intTx + iedx*INT_SCALE;
-    var intEndY = intTy + iedy*INT_SCALE;
-
     document.getElementById('poi-blue-hijo').setAttribute('d', INNER[hijoLocStatus]);
     document.getElementById('poi-blue-dot-hijo').setAttribute('cx',idx);
     document.getElementById('poi-blue-dot-hijo').setAttribute('cy',idy);
@@ -1549,7 +1436,6 @@ function render(){
     document.getElementById('poi-ext-hijo-label').setAttribute('y', clampY(idy+hijoExtOffset)+13);
   } else {
     innerWrap.style.display = 'none';
-    document.getElementById('cv-int-wrap').style.display = 'none';
   }
 
   const nietoWrap = document.getElementById('ld-nieto-wrap');
@@ -1578,18 +1464,6 @@ function render(){
     document.getElementById('ldn-dot').setAttribute('cy',ndy);
     document.getElementById('ldn-flip').setAttribute('transform', state.nietoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
 
-    document.getElementById('cv-sub-wrap').style.display = 'block';
-    document.getElementById('cv-sub-path').setAttribute('d', NIETO[nietoLocStatus]);
-    document.getElementById('cv-sub-dot').setAttribute('cx',ndx);
-    document.getElementById('cv-sub-dot').setAttribute('cy',ndy);
-    document.getElementById('cv-sub-flip').setAttribute('transform', state.nietoDir === "Bajista" ? "translate(0,130) scale(1,-1)" : "");
-
-    const SUB_SCALE = 0.78;
-    const [sstx, ssty] = puntoFlip(6, 120, state.nietoDir);
-    const subTx = intEndX - sstx*SUB_SCALE;
-    const subTy = intEndY - ssty*SUB_SCALE;
-    document.getElementById('cv-sub-wrap').setAttribute('transform', `translate(${subTx},${subTy}) scale(${SUB_SCALE})`);
-
     document.getElementById('poi-orange-nieto').setAttribute('d', NIETO[nietoLocStatus]);
     document.getElementById('poi-orange-dot-nieto').setAttribute('cx',ndx);
     document.getElementById('poi-orange-dot-nieto').setAttribute('cy',ndy);
@@ -1606,65 +1480,9 @@ function render(){
     document.getElementById('poi-ext-nieto-label').setAttribute('y', clampY(ndy+nietoExtOffset)+13);
   } else {
     nietoWrap.style.display = 'none';
-    document.getElementById('cv-sub-wrap').style.display = 'none';
   }
   document.getElementById('nyRelOut').textContent = state.nyRelacion;
   document.getElementById('sesionActivaOut').textContent = state.sesionActiva;
-
-  const sugerencias = calcularSugerencias();
-  const sugWrap = document.getElementById('sugerencias-wrap');
-  const sesionInfo = chequeoSesion();
-  if(sugerencias.length === 0){
-    sugWrap.style.display = 'none';
-    sugWrap.innerHTML = '';
-    document.getElementById('cv-sugbox-1').setAttribute('opacity', '0');
-    document.getElementById('cv-sugbox-2').setAttribute('opacity', '0');
-  } else {
-    sugWrap.style.display = 'flex';
-    let html = '';
-    sugerencias.forEach((s, i)=>{
-      html += `<div style="background:var(--panel);border:1px solid ${s.color};border-radius:10px;padding:12px 16px;display:flex;gap:12px;align-items:flex-start;">
-        <div style="width:26px;height:26px;border-radius:50%;background:${s.color}22;color:${s.color};font-weight:800;font-size:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">${i+1}</div>
-        <div>
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:${s.color};font-weight:700;margin-bottom:2px;">Operación sugerida ${i+1}</div>
-          <div style="font-size:14px;line-height:1.5;">${s.texto}</div>
-        </div>
-      </div>`;
-    });
-    if(sesionInfo && !sesionInfo.dentro){
-      html += `<div style="background:#4A211C;border:1px solid #E1584A;border-radius:10px;padding:10px 16px;font-size:13px;color:#E1584A;">
-        ⚠️ Estás fuera del horario de ${state.sesionActiva} (${String(sesionInfo.desde).padStart(2,'0')}:00–${String(sesionInfo.hasta).padStart(2,'0')}:00, UTC-3). Si no te alineás con la hora, podés perder la oportunidad.
-      </div>`;
-    }
-    sugWrap.innerHTML = html;
-
-    const sug1 = sugerencias.find(s => s.nivel === "Sub");
-    if(sug1){
-      const dot = document.getElementById('cv-sub-dot');
-      const sdx = parseFloat(dot.getAttribute('cx')) || 0;
-      const sdy = parseFloat(dot.getAttribute('cy')) || 0;
-      const box = document.getElementById('cv-sugbox-1');
-      box.setAttribute('opacity', '0.3');
-      box.setAttribute('fill', sug1.color);
-      box.setAttribute('x', sdx - 22); box.setAttribute('y', sdy - 45);
-      box.setAttribute('width', 44); box.setAttribute('height', 40);
-    } else {
-      document.getElementById('cv-sugbox-1').setAttribute('opacity', '0');
-    }
-    const sug2 = sugerencias.find(s => s.nivel === "Interna");
-    if(sug2){
-      const dot = document.getElementById('cv-int-dot');
-      const idx2 = parseFloat(dot.getAttribute('cx')) || 0;
-      const idy2 = parseFloat(dot.getAttribute('cy')) || 0;
-      const box = document.getElementById('cv-sugbox-2');
-      box.setAttribute('opacity', '0.3');
-      box.setAttribute('fill', sug2.color);
-      box.setAttribute('x', idx2 - 22); box.setAttribute('y', idy2 - 45);
-      box.setAttribute('width', 44); box.setAttribute('height', 40);
-    } else {
-      document.getElementById('cv-sugbox-2').setAttribute('opacity', '0');
-    }
-  }
 
   const sessionMap = {"Asia":"block-asia","Londres":"block-londres","NY":"block-ny"};
   document.getElementById('sesion-placeholder').style.display = state.sesionActiva === "Sin definir" ? "block" : "none";
@@ -2030,7 +1848,7 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
   const wrapRings = document.getElementById('export-indicators-rings');
   wrapEstructura.innerHTML = '';
   wrapRings.innerHTML = '';
-  const idsEstructura = ['card-impulso-externa', 'ld-inner-wrap', 'ld-nieto-wrap', 'cv-wrap'];
+  const idsEstructura = ['card-impulso-externa', 'ld-inner-wrap', 'ld-nieto-wrap'];
   const idsRings = ['card-induccion', 'card-ciclodiario', 'card-poi-ext', 'card-poi-int', 'card-poi-nieto'];
   function clonarIndicador(id, destino){
     const original = document.getElementById(id);
