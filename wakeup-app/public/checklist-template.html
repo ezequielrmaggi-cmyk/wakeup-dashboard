@@ -272,6 +272,11 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
     </div>
   </div>
 
+  <div id="escenario-visual-wrap" style="display:none;width:100%;box-sizing:border-box;margin-bottom:22px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;">
+    <div class="eyebrow" style="justify-content:center;">Escenario detectado</div>
+    <div id="escenario-img-area" style="min-height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:14px;"></div>
+  </div>
+
   <div class="rings">
     <div class="ring-card" id="card-induccion">
       <svg viewBox="0 0 120 120">
@@ -1285,6 +1290,49 @@ function calcularProgresoAnalisis(){
   return Math.round((done/total)*100);
 }
 
+// Mapa de imágenes por escenario. Se va completando a medida que se suben las imágenes.
+// La clave se arma así: [par]-[tipo]-[dirección de la estructura de afuera]
+// par: "externa-interna" o "interna-sub"
+// tipo: "retroceso" (afuera en expansión + adentro opuesta) o "continuacion" (afuera recuperada + adentro alineada)
+// Ejemplo de clave: "interna-sub-retroceso-Alcista"
+const ESCENARIO_IMAGENES = {
+  "externa-interna-retroceso-Alcista": "/escenarios/escenario-1-externa-interna-retroceso-alcista.png",
+};
+
+function evaluarParEscenario(outer, inner, nombrePar){
+  if(outer.dir === "Sin definir" || inner.dir === "Sin definir") return null;
+  const outerExpansion = outer.bosStatus === "despues" && !outer.complexPB;
+  const outerRecuperada = outer.complexPB && outer.retrocesoEf;
+  const opuesto = inner.dir !== outer.dir;
+  const alineado = inner.dir === outer.dir;
+
+  if(outerExpansion && opuesto){
+    return { par: nombrePar, tipo: "retroceso", dir: outer.dir };
+  }
+  if(outerRecuperada && alineado){
+    return { par: nombrePar, tipo: "continuacion", dir: outer.dir };
+  }
+  return null;
+}
+
+function calcularEscenarios(){
+  const externaObj = { dir: state.padreDir, bosStatus: state.padreBosStatus, complexPB: state.padreComplexPB, retrocesoEf: state.padreRetrocesoEf };
+  const internaObj = { dir: state.hijoDir, bosStatus: state.hijoBosStatus, complexPB: state.hijoComplexPB, retrocesoEf: state.hijoRetrocesoEf };
+  const subObj = { dir: state.nietoDir, bosStatus: state.nietoBosStatus, complexPB: state.nietoComplexPB, retrocesoEf: state.nietoRetrocesoEf };
+  const resultados = [];
+  if(state.hijoEstrInt){
+    const e1 = evaluarParEscenario(internaObj, subObj, "interna-sub");
+    if(e1) resultados.push(e1);
+  }
+  const e2 = evaluarParEscenario(externaObj, internaObj, "externa-interna");
+  if(e2) resultados.push(e2);
+  return resultados;
+}
+
+function claveEscenario(e){
+  return `${e.par}-${e.tipo}-${e.dir}`;
+}
+
 function render(){
   const r = compute();
   renderParesTabs();
@@ -1483,6 +1531,27 @@ function render(){
   }
   document.getElementById('nyRelOut').textContent = state.nyRelacion;
   document.getElementById('sesionActivaOut').textContent = state.sesionActiva;
+
+  const escenarios = calcularEscenarios();
+  const escWrap = document.getElementById('escenario-visual-wrap');
+  const escArea = document.getElementById('escenario-img-area');
+  if(escenarios.length === 0){
+    escWrap.style.display = 'none';
+    escArea.innerHTML = '';
+  } else {
+    escWrap.style.display = 'block';
+    escArea.innerHTML = escenarios.map((e, i)=>{
+      const clave = claveEscenario(e);
+      const src = ESCENARIO_IMAGENES[clave];
+      if(src){
+        return `<div style="width:100%;"><img src="${src}" style="max-width:100%;border-radius:10px;display:block;margin:0 auto;"></div>`;
+      }
+      return `<div style="padding:10px 0;">
+        <div style="color:var(--text-dim);font-size:14px;">Todavía no hay una imagen cargada para este caso.</div>
+        <div style="color:var(--text-dim);font-size:11px;opacity:.55;margin-top:4px;">clave: ${clave}</div>
+      </div>`;
+    }).join('<div style="height:1px;background:var(--border);margin:6px 0;"></div>');
+  }
 
   const sessionMap = {"Asia":"block-asia","Londres":"block-londres","NY":"block-ny"};
   document.getElementById('sesion-placeholder').style.display = state.sesionActiva === "Sin definir" ? "block" : "none";
