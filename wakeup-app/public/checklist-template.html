@@ -1295,8 +1295,9 @@ function calcularProgresoAnalisis(){
 // par: "externa-interna" o "interna-sub"
 // tipo: "retroceso" (afuera en expansión + adentro opuesta) o "continuacion" (afuera recuperada + adentro alineada)
 // Ejemplo de clave: "interna-sub-retroceso-Alcista"
+const ESCENARIO_IMAGENES_BASE = "https://wakeup-dashboard.vercel.app/escenarios/";
 const ESCENARIO_IMAGENES = {
-  "externa-interna-retroceso-Alcista": "/escenarios/escenario-1-externa-interna-retroceso-alcista.png",
+  "externa-interna-retroceso-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-1-externa-interna-retroceso-alcista.png",
 };
 
 function evaluarParEscenario(outer, inner, nombrePar){
