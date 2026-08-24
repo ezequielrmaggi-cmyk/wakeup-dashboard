@@ -1299,11 +1299,12 @@ const ESCENARIO_IMAGENES_BASE = "https://wakeup-dashboard.vercel.app/escenarios/
 const ESCENARIO_IMAGENES = {
   "externa-interna-retroceso-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-1-externa-interna-retroceso-alcista.png",
   "externa-interna-retroceso-Bajista": ESCENARIO_IMAGENES_BASE + "escenario-2-externa-interna-retroceso-bajista.png",
+  "externa-interna-continuacion-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-3-externa-interna-continuacion-alcista.png",
 };
 
 function evaluarParEscenario(outer, inner, nombrePar){
   if(outer.dir === "Sin definir" || inner.dir === "Sin definir") return null;
-  const outerExpansion = outer.bosStatus === "despues" && outer.complexPB && !outer.retrocesoEf;
+  const outerExpansion = outer.bosStatus === "despues" && !outer.complexPB;
   const outerRecuperada = outer.complexPB && outer.retrocesoEf;
   const opuesto = inner.dir !== outer.dir;
   const alineado = inner.dir === outer.dir;
