@@ -1394,7 +1394,7 @@ function render(){
     };
     const INNER_DOT = { construccion:[109,60], expansion:[124,15], pullback:[113,58], eficiente:[105,95] };
     let hijoLocStatus;
-    if(!state.hijoEstrInt){
+    if(state.hijoBosStatus === "antes"){
       hijoLocStatus = 'construccion';
     } else if(!state.hijoComplexPB){
       hijoLocStatus = 'expansion';
