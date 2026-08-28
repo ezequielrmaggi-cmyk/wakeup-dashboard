@@ -944,6 +944,10 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
         </div>
       </div>
     </div>
+    <div id="export-escenario-wrap" style="display:none;margin-top:36px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 32px;position:relative;z-index:1;">
+      <div class="eyebrow" style="font-size:14px;font-weight:700;">Escenario detectado</div>
+      <div id="export-escenario-img" style="margin-top:14px;text-align:center;"></div>
+    </div>
   </div>
 
   <div class="hist">
@@ -1937,6 +1941,16 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
   }
   idsEstructura.forEach(id => clonarIndicador(id, wrapEstructura));
   idsRings.forEach(id => clonarIndicador(id, wrapRings));
+
+  const escAreaLive = document.getElementById('escenario-img-area');
+  const exportEscWrap = document.getElementById('export-escenario-wrap');
+  const exportEscImg = document.getElementById('export-escenario-img');
+  if(escAreaLive && escAreaLive.querySelector('img')){
+    exportEscImg.innerHTML = escAreaLive.innerHTML;
+    exportEscWrap.style.display = 'block';
+  } else {
+    exportEscWrap.style.display = 'none';
+  }
 
   try{
     const canvas = await html2canvas(document.getElementById('export-card'), {backgroundColor:'#0A0618', scale:1, width:1920});
