@@ -389,6 +389,11 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
             <div class="lockable" id="padreRetrocesoEf-wrap">
               <label class="chk"><input type="checkbox" data-k="padreRetrocesoEf"><span class="stage-dot s4"></span> Retroceso Eficiente (llegó a zona de oferta/demanda) <span class="mission">— requiere Complex Pullback confirmado</span></label>
             </div>
+            <div class="lockable" id="padreUbic-wrap">
+              <div class="row"><label>Ubicación</label>
+                <select data-k="poiPadreUbic" id="poiPadreUbicSelect"><option>No definido</option><option>Decisional</option><option>Extremo</option></select>
+              </div>
+            </div>
           </div>
           <div class="gap-warn" id="gap-padre" style="display:none;">Salto de etapa detectado en externa — resta puntos <button type="button" class="gap-reset" data-reset="padreGapEver">reiniciar</button></div>
 
@@ -418,6 +423,11 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
               <div class="lockable" id="hijoRetrocesoEf-wrap">
                 <label class="chk"><input type="checkbox" data-k="hijoRetrocesoEf"><span class="stage-dot s4"></span> Retroceso Eficiente <span class="mission">— requiere Complex Pullback confirmado</span></label>
               </div>
+              <div class="lockable" id="hijoUbic-wrap">
+                <div class="row"><label>Ubicación</label>
+                  <select data-k="poiHijoUbic" id="poiHijoUbicSelect"><option>No definido</option><option>Decisional</option><option>Extremo</option></select>
+                </div>
+              </div>
             </div>
             <div class="gap-warn" id="gap-hijo" style="display:none;">Salto de etapa detectado en interna — resta puntos <button type="button" class="gap-reset" data-reset="hijoGapEver">reiniciar</button></div>
 
@@ -443,6 +453,11 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 </div>
                 <div class="lockable" id="nietoRetrocesoEf-wrap">
                   <label class="chk"><input type="checkbox" data-k="nietoRetrocesoEf"><span class="stage-dot s4"></span> Retroceso Eficiente <span class="mission">— requiere Complex Pullback confirmado</span></label>
+                </div>
+                <div class="lockable" id="nietoUbic-wrap">
+                  <div class="row"><label>Ubicación</label>
+                    <select data-k="poiNietoUbic" id="poiNietoUbicSelect"><option>No definido</option><option>Decisional</option><option>Extremo</option></select>
+                  </div>
                 </div>
               </div>
               <div class="gap-warn" id="gap-nieto" style="display:none;">Salto de etapa detectado en sub estructura — resta puntos <button type="button" class="gap-reset" data-reset="nietoGapEver">reiniciar</button></div>
@@ -521,9 +536,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 </svg>
                 <div class="ring-center"><div class="ring-pct" id="ring-poi-ext-mini-pct">0%</div><div class="ring-label">calidad</div></div>
               </div>
-            </div>
-            <div class="row"><label>Ubicación</label>
-              <select data-k="poiPadreUbic" id="poiPadreUbicSelect"><option>No definido</option><option>Decisional</option><option>Extremo</option></select>
             </div>
             <div class="level-label" id="calidad-padre" style="margin-top:6px;">Calidad <span class="mission" id="calidad-padre-status"></span></div>
             <div class="lockable" id="calidad-padre-fields">
@@ -624,9 +636,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                   <div class="ring-center"><div class="ring-pct" id="ring-poi-int-mini-pct">0%</div><div class="ring-label">calidad</div></div>
                 </div>
               </div>
-              <div class="row"><label>Ubicación</label>
-                <select data-k="poiHijoUbic" id="poiHijoUbicSelect"><option>No definido</option><option>Decisional</option><option>Extremo</option></select>
-              </div>
               <div class="level-label" id="calidad-hijo" style="margin-top:6px;">Calidad <span class="mission" id="calidad-hijo-status"></span></div>
               <div class="lockable" id="calidad-hijo-fields">
                 <label class="chk"><input type="checkbox" data-k="poiHijoRifc"> Vela RIFC detectada</label>
@@ -725,9 +734,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                     </svg>
                     <div class="ring-center"><div class="ring-pct" id="ring-poi-nieto-mini-pct">0%</div><div class="ring-label">calidad</div></div>
                   </div>
-                </div>
-                <div class="row"><label>Ubicación</label>
-                  <select data-k="poiNietoUbic" id="poiNietoUbicSelect"><option>No definido</option><option>Decisional</option><option>Extremo</option></select>
                 </div>
                 <div class="level-label" id="calidad-nieto" style="margin-top:6px;">Calidad <span class="mission" id="calidad-nieto-status"></span></div>
                 <div class="lockable" id="calidad-nieto-fields">
@@ -1363,16 +1369,19 @@ function render(){
 
   document.getElementById('padreComplexPB-wrap').classList.toggle('locked', state.padreBosStatus !== "despues");
   document.getElementById('padreRetrocesoEf-wrap').classList.toggle('locked', !state.padreComplexPB);
+  document.getElementById('padreUbic-wrap').classList.toggle('locked', !state.padreRetrocesoEf);
   document.getElementById('padre-post-dir-wrap').style.display = state.padreDir !== "Sin definir" ? "block" : "none";
   document.getElementById('padre-dir-placeholder').style.display = state.padreDir !== "Sin definir" ? "none" : "block";
   document.getElementById('hijo-post-dir-wrap').style.display = state.hijoDir !== "Sin definir" ? "block" : "none";
   document.getElementById('hijoMainPush-wrap').classList.toggle('locked', state.padreDir === "Sin definir");
   document.getElementById('hijo-dir-placeholder').style.display = state.hijoDir !== "Sin definir" ? "none" : "block";
   document.getElementById('hijoRetrocesoEf-wrap').classList.toggle('locked', !state.hijoComplexPB);
+  document.getElementById('hijoUbic-wrap').classList.toggle('locked', !state.hijoRetrocesoEf);
   document.getElementById('nieto-post-dir-wrap').style.display = state.nietoDir !== "Sin definir" ? "block" : "none";
   document.getElementById('nietoMainPush-wrap').classList.toggle('locked', state.hijoDir === "Sin definir");
   document.getElementById('nieto-dir-placeholder').style.display = state.nietoDir !== "Sin definir" ? "none" : "block";
   document.getElementById('nietoRetrocesoEf-wrap').classList.toggle('locked', !state.nietoComplexPB);
+  document.getElementById('nietoUbic-wrap').classList.toggle('locked', !state.nietoRetrocesoEf);
   const locEl = document.getElementById('locValue');
   let locStatus;
   if(state.padreBosStatus === "antes"){
@@ -1553,7 +1562,7 @@ function render(){
       const clave = claveEscenario(e);
       const src = ESCENARIO_IMAGENES[clave];
       if(src){
-        return `<div style="width:100%;"><img src="${src}" style="max-width:100%;border-radius:10px;display:block;margin:0 auto;"></div>`;
+        return `<div style="width:100%;"><img src="${src}" crossorigin="anonymous" style="max-width:100%;border-radius:10px;display:block;margin:0 auto;"></div>`;
       }
       return `<div style="padding:10px 0;">
         <div style="color:var(--text-dim);font-size:14px;">Todavía no hay una imagen cargada para este caso.</div>
@@ -1953,7 +1962,7 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
   }
 
   try{
-    const canvas = await html2canvas(document.getElementById('export-card'), {backgroundColor:'#0A0618', scale:1, width:1920});
+    const canvas = await html2canvas(document.getElementById('export-card'), {backgroundColor:'#0A0618', scale:1, width:1920, useCORS:true});
     const link = document.createElement('a');
     link.download = 'analisis-wakeup-' + Date.now() + '.png';
     link.href = canvas.toDataURL('image/png');
