@@ -1305,12 +1305,13 @@ const ESCENARIO_IMAGENES = {
 
 function evaluarParEscenario(outer, inner, nombrePar){
   if(outer.dir === "Sin definir" || inner.dir === "Sin definir") return null;
-  const outerExpansion = outer.bosStatus === "despues" && !outer.complexPB;
-  const continuacionCond = outerExpansion && inner.complexPB;
+  const outerSinPB = outer.bosStatus === "despues" && !outer.complexPB;
+  const outerEnProceso = outer.bosStatus === "despues" && outer.complexPB && !outer.retrocesoEf;
+  const continuacionCond = outerSinPB && inner.complexPB;
   const opuesto = inner.dir !== outer.dir;
   const alineado = inner.dir === outer.dir;
 
-  if(outerExpansion && opuesto){
+  if(outerEnProceso && opuesto){
     return { par: nombrePar, tipo: "retroceso", dir: outer.dir };
   }
   if(continuacionCond && alineado){
