@@ -1311,18 +1311,23 @@ const ESCENARIO_IMAGENES = {
   "externa-interna-retroceso-Bajista": ESCENARIO_IMAGENES_BASE + "escenario-2-externa-interna-retroceso-bajista.png",
   "externa-interna-continuacion-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-3-externa-interna-continuacion-alcista.png",
   "externa-interna-continuacion-Bajista": ESCENARIO_IMAGENES_BASE + "escenario-4-externa-interna-continuacion-bajista.png",
+  "externa-interna-decisional-Bajista": ESCENARIO_IMAGENES_BASE + "escenario-5-externa-interna-decisional-bajista.png",
 };
 
 function evaluarParEscenario(outer, inner, nombrePar){
   if(outer.dir === "Sin definir" || inner.dir === "Sin definir") return null;
   const outerSinPB = outer.bosStatus === "despues" && !outer.complexPB;
   const outerEnProceso = outer.bosStatus === "despues" && outer.complexPB && !outer.retrocesoEf;
+  const outerEnDecisional = outer.bosStatus === "despues" && outer.complexPB && outer.retrocesoEf && outer.ubic === "Decisional";
   const continuacionCond = outerSinPB && inner.complexPB;
   const opuesto = inner.dir !== outer.dir;
   const alineado = inner.dir === outer.dir;
 
   if(outerEnProceso && opuesto){
     return { par: nombrePar, tipo: "retroceso", dir: outer.dir };
+  }
+  if(outerEnDecisional && opuesto){
+    return { par: nombrePar, tipo: "decisional", dir: outer.dir };
   }
   if(continuacionCond && alineado){
     return { par: nombrePar, tipo: "continuacion", dir: outer.dir };
@@ -1331,9 +1336,9 @@ function evaluarParEscenario(outer, inner, nombrePar){
 }
 
 function calcularEscenarios(){
-  const externaObj = { dir: state.padreDir, bosStatus: state.padreBosStatus, complexPB: state.padreComplexPB, retrocesoEf: state.padreRetrocesoEf };
-  const internaObj = { dir: state.hijoDir, bosStatus: state.hijoBosStatus, complexPB: state.hijoComplexPB, retrocesoEf: state.hijoRetrocesoEf };
-  const subObj = { dir: state.nietoDir, bosStatus: state.nietoBosStatus, complexPB: state.nietoComplexPB, retrocesoEf: state.nietoRetrocesoEf };
+  const externaObj = { dir: state.padreDir, bosStatus: state.padreBosStatus, complexPB: state.padreComplexPB, retrocesoEf: state.padreRetrocesoEf, ubic: state.poiPadreUbic };
+  const internaObj = { dir: state.hijoDir, bosStatus: state.hijoBosStatus, complexPB: state.hijoComplexPB, retrocesoEf: state.hijoRetrocesoEf, ubic: state.poiHijoUbic };
+  const subObj = { dir: state.nietoDir, bosStatus: state.nietoBosStatus, complexPB: state.nietoComplexPB, retrocesoEf: state.nietoRetrocesoEf, ubic: state.poiNietoUbic };
   const resultados = [];
   if(state.hijoEstrInt){
     const e1 = evaluarParEscenario(internaObj, subObj, "interna-sub");
