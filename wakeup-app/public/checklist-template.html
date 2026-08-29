@@ -1313,13 +1313,14 @@ const ESCENARIO_IMAGENES = {
   "externa-interna-continuacion-Bajista": ESCENARIO_IMAGENES_BASE + "escenario-4-externa-interna-continuacion-bajista.png",
   "externa-interna-decisional-Bajista": ESCENARIO_IMAGENES_BASE + "escenario-5-externa-interna-decisional-bajista.png",
   "externa-interna-decisional-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-6-externa-interna-decisional-alcista.png",
+  "externa-interna-reanudacion-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-7-externa-interna-reanudacion-alcista.png",
 };
 
 function evaluarParEscenario(outer, inner, nombrePar){
   if(outer.dir === "Sin definir" || inner.dir === "Sin definir") return null;
   const outerSinPB = outer.bosStatus === "despues" && !outer.complexPB;
   const outerEnProceso = outer.bosStatus === "despues" && outer.complexPB && !outer.retrocesoEf;
-  const outerEnDecisional = outer.bosStatus === "despues" && outer.complexPB && outer.retrocesoEf && outer.ubic === "Decisional";
+  const outerRecuperada = outer.bosStatus === "despues" && outer.complexPB && outer.retrocesoEf;
   const continuacionCond = outerSinPB && inner.complexPB;
   const opuesto = inner.dir !== outer.dir;
   const alineado = inner.dir === outer.dir;
@@ -1327,8 +1328,11 @@ function evaluarParEscenario(outer, inner, nombrePar){
   if(outerEnProceso && opuesto){
     return { par: nombrePar, tipo: "retroceso", dir: outer.dir };
   }
-  if(outerEnDecisional && opuesto){
+  if(outerRecuperada && opuesto && outer.ubic === "Decisional"){
     return { par: nombrePar, tipo: "decisional", dir: outer.dir };
+  }
+  if(outerRecuperada && alineado){
+    return { par: nombrePar, tipo: "reanudacion", dir: outer.dir };
   }
   if(continuacionCond && alineado){
     return { par: nombrePar, tipo: "continuacion", dir: outer.dir };
