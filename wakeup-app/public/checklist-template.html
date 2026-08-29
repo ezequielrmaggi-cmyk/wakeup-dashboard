@@ -1315,6 +1315,7 @@ const ESCENARIO_IMAGENES = {
   "externa-interna-decisional-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-6-externa-interna-decisional-alcista.png",
   "externa-interna-reanudacion-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-7-externa-interna-reanudacion-alcista.png",
   "externa-interna-reanudacion-Bajista": ESCENARIO_IMAGENES_BASE + "escenario-8-externa-interna-reanudacion-bajista.png",
+  "externa-interna-extremo-Alcista": ESCENARIO_IMAGENES_BASE + "escenario-9-externa-interna-extremo-alcista.png",
 };
 
 function evaluarParEscenario(outer, inner, nombrePar){
@@ -1331,6 +1332,9 @@ function evaluarParEscenario(outer, inner, nombrePar){
   }
   if(outerRecuperada && opuesto && outer.ubic === "Decisional"){
     return { par: nombrePar, tipo: "decisional", dir: outer.dir };
+  }
+  if(outerRecuperada && opuesto && outer.ubic === "Extremo"){
+    return { par: nombrePar, tipo: "extremo", dir: outer.dir };
   }
   if(outerRecuperada && alineado){
     return { par: nombrePar, tipo: "reanudacion", dir: outer.dir };
