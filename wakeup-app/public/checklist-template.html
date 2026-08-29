@@ -2112,6 +2112,7 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
   const sections = navBtns.map(btn => document.querySelector('[data-pillar="'+btn.dataset.goto+'"]')).filter(Boolean);
   navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      navBtns.forEach(b => b.classList.toggle('active', b === btn));
       const target = document.querySelector('[data-pillar="'+btn.dataset.goto+'"]');
       if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
     });
