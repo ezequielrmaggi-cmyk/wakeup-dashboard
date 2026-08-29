@@ -163,6 +163,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
     <button type="button" class="floating-nav-btn" data-goto="estructura">Estructura</button>
     <button type="button" class="floating-nav-btn" data-goto="poi">POI</button>
     <button type="button" class="floating-nav-btn" data-goto="liquidez">Objetivo</button>
+    <button type="button" class="floating-nav-btn" data-goto="ciclodiario">Ciclo Diario</button>
     <button type="button" class="floating-nav-btn" data-goto="induccion">Inducción</button>
   </nav>
 <div class="wrap">
@@ -799,8 +800,21 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
         </div>
       </div>
 
+      <div class="pillar" data-pillar="ciclodiario">
+        <div class="pillar-head"><div class="pillar-num">04</div><div class="pillar-title">Ciclo Diario</div><div class="pillar-tag">obligatorio</div></div>
+        <div class="pillar-body">
+          <div class="stat-bar-row">
+            <div class="stat"><span>Ciclo Diario</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" id="ciclodiario-progress-fill" style="width:0%;background:var(--brand1);"></div></div>
+          </div>
+          <label class="chk"><input type="checkbox" data-k="diaAsiaPaso"><span class="stage-dot i1"></span> Rango Asiático</label>
+          <label class="chk"><input type="checkbox" data-k="diaLondresPaso"><span class="stage-dot i2"></span> Open de Londres</label>
+          <label class="chk"><input type="checkbox" data-k="diaNyPaso"><span class="stage-dot i4"></span> Trampa de NY</label>
+        </div>
+      </div>
+
       <div class="pillar" data-pillar="induccion">
-        <div class="pillar-head"><div class="pillar-num">04</div><div class="pillar-title">Ciclo de Inducción</div><div class="pillar-tag">obligatorio</div></div>
+        <div class="pillar-head"><div class="pillar-num">05</div><div class="pillar-title">Ciclo de Inducción</div><div class="pillar-tag">obligatorio</div></div>
         <div class="pillar-body">
 
           <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
@@ -819,24 +833,21 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
               </svg>
               <div class="ring-center"><div class="ring-pct" id="ring-induccion-mini-pct">0%</div><div class="ring-label">avance</div></div>
             </div>
-            <div class="level-label" style="margin:0;">Ciclo Diario — sesiones ya transcurridas</div>
+            <div class="level-label" style="margin:0;">Sesión de inducción</div>
           </div>
-          <label class="chk"><input type="checkbox" data-k="diaAsiaPaso"><span class="stage-dot i1"></span> Asia ya pasó</label>
-          <label class="chk"><input type="checkbox" data-k="diaLondresPaso"><span class="stage-dot i2"></span> Londres ya pasó</label>
-          <label class="chk"><input type="checkbox" data-k="diaNyPaso"><span class="stage-dot i4"></span> NY ya pasó</label>
 
-          <div class="row" style="margin-top:10px;"><label>Sesión activa (Ciclo Diario)</label>
+          <div class="row" style="margin-top:10px;"><label>Sesión activa (Ciclo de Inducción)</label>
             <select data-k="sesionActiva"><option>Sin definir</option><option>Asia</option><option>Londres</option><option>NY</option></select>
           </div>
           <p class="mission" id="sesion-placeholder" style="margin:4px 0 0;">Elegí la sesión activa arriba para completar su ciclo de inducción.</p>
 
           <div class="session-block" id="block-asia">
             <div class="level-label">Asia <span class="mission">misión: acumular liquidez</span></div>
-            <label class="chk"><input type="checkbox" data-k="asiaAcum"><span class="stage-dot i1"></span> Acumular liquidez</label>
+            <label class="chk"><input type="checkbox" data-k="asiaAcum"><span class="stage-dot i1"></span> Acumular Liquidez</label>
             <label class="chk"><input type="checkbox" data-k="asiaFake"><span class="stage-dot i2"></span> Fake</label>
             <label class="chk"><input type="checkbox" data-k="asiaInducir"><span class="stage-dot i3"></span> Inducir y tocar POI</label>
-            <label class="chk"><input type="checkbox" data-k="asiaBos"><span class="stage-dot i4"></span> BOS interno</label>
-            <label class="chk"><input type="checkbox" data-k="asiaMitig"><span class="stage-dot i5"></span> Mitigar la inducción</label>
+            <label class="chk"><input type="checkbox" data-k="asiaBos"><span class="stage-dot i4"></span> BOS Interno</label>
+            <label class="chk"><input type="checkbox" data-k="asiaMitig"><span class="stage-dot i5"></span> Mitigar POI de la Inducción</label>
           </div>
 
           <div class="nest session-block" id="block-londres">
@@ -844,11 +855,11 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
             <div class="row"><label>Relación con Asia</label>
               <select data-k="londresRelacion"><option>Sin definir</option><option>Continúa</option><option>Revierte</option></select>
             </div>
-            <label class="chk"><input type="checkbox" data-k="londresAcum"><span class="stage-dot i1"></span> Acumular liquidez</label>
+            <label class="chk"><input type="checkbox" data-k="londresAcum"><span class="stage-dot i1"></span> Acumular Liquidez</label>
             <label class="chk"><input type="checkbox" data-k="londresFake"><span class="stage-dot i2"></span> Fake</label>
             <label class="chk"><input type="checkbox" data-k="londresInducir"><span class="stage-dot i3"></span> Inducir y tocar POI</label>
-            <label class="chk"><input type="checkbox" data-k="londresBos"><span class="stage-dot i4"></span> BOS interno</label>
-            <label class="chk"><input type="checkbox" data-k="londresMitig"><span class="stage-dot i5"></span> Mitigar la inducción</label>
+            <label class="chk"><input type="checkbox" data-k="londresBos"><span class="stage-dot i4"></span> BOS Interno</label>
+            <label class="chk"><input type="checkbox" data-k="londresMitig"><span class="stage-dot i5"></span> Mitigar POI de la Inducción</label>
           </div>
 
           <div class="nest session-block" id="block-ny">
@@ -856,11 +867,11 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
             <div class="row"><label>Relación con Londres</label>
               <select data-k="nyRelacion"><option>Sin definir</option><option>Continúa objetivo de Londres</option><option>Revierte lo que atrapó Londres</option></select>
             </div>
-            <label class="chk"><input type="checkbox" data-k="nyAcum"><span class="stage-dot i1"></span> Acumular liquidez</label>
+            <label class="chk"><input type="checkbox" data-k="nyAcum"><span class="stage-dot i1"></span> Acumular Liquidez</label>
             <label class="chk"><input type="checkbox" data-k="nyFake"><span class="stage-dot i2"></span> Fake</label>
             <label class="chk"><input type="checkbox" data-k="nyInducir"><span class="stage-dot i3"></span> Inducir y tocar POI</label>
-            <label class="chk"><input type="checkbox" data-k="nyBos"><span class="stage-dot i4"></span> BOS interno</label>
-            <label class="chk"><input type="checkbox" data-k="nyMitig"><span class="stage-dot i5"></span> Mitigar la inducción</label>
+            <label class="chk"><input type="checkbox" data-k="nyBos"><span class="stage-dot i4"></span> BOS Interno</label>
+            <label class="chk"><input type="checkbox" data-k="nyMitig"><span class="stage-dot i5"></span> Mitigar POI de la Inducción</label>
           </div>
         </div>
       </div>
@@ -889,19 +900,19 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       <div class="punch"></div>
 
       <div class="stat-bar-row">
-        <div class="stat"><span>01 Estructura</span><b id="s-estructura">0/25</b></div>
+        <div class="stat"><span>Ciclo de Estructura</span><b id="s-estructura" style="display:none;">0/25</b></div>
         <div class="stat-bar"><div class="stat-bar-fill" id="s-estructura-bar" style="width:0%;background:var(--brand1);"></div></div>
       </div>
       <div class="stat-bar-row">
-        <div class="stat"><span>02 POI (bonus)</span><b id="s-poi">0/10</b></div>
+        <div class="stat"><span>Punto de Interés</span><b id="s-poi" style="display:none;">0/10</b></div>
         <div class="stat-bar"><div class="stat-bar-fill" id="s-poi-bar" style="width:0%;background:var(--blue);"></div></div>
       </div>
       <div class="stat-bar-row">
-        <div class="stat"><span>03 Liquidez</span><b id="s-liquidez">0/25</b></div>
+        <div class="stat"><span>Objetivo</span><b id="s-liquidez" style="display:none;">0/25</b></div>
         <div class="stat-bar"><div class="stat-bar-fill" id="s-liquidez-bar" style="width:0%;background:var(--teal);"></div></div>
       </div>
       <div class="stat-bar-row">
-        <div class="stat"><span>04 Inducción (3 sesiones)</span><b id="s-induccion">0/25</b></div>
+        <div class="stat"><span>Ciclo de Inducción</span><b id="s-induccion" style="display:none;">0/25</b></div>
         <div class="stat-bar"><div class="stat-bar-fill" id="s-induccion-bar" style="width:0%;background:var(--amber);"></div></div>
       </div>
 
@@ -1723,6 +1734,7 @@ function render(){
   setArc('seg-dia-ny', state.diaNyPaso ? THIRD : 0);
   const diaCount = [state.diaAsiaPaso, state.diaLondresPaso, state.diaNyPaso].filter(Boolean).length;
   document.getElementById('ring-ciclodiario-pct').textContent = Math.round((diaCount/3)*100)+'%';
+  document.getElementById('ciclodiario-progress-fill').style.width = Math.round((diaCount/3)*100)+'%';
   document.getElementById('card-ciclodiario').style.display = diaCount>0 ? '' : 'none';
 
   const SIXTH = 52.36;
@@ -1989,7 +2001,6 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
       const box = original.getBoundingClientRect();
       const wrapper = document.createElement('div');
       wrapper.style.cssText = 'display:flex;align-items:center;justify-content:center;width:'+(box.width*scale)+'px;height:'+(box.height*scale)+'px;';
-      clone.style.display = 'block';
       clone.style.transform = 'scale('+scale+')';
       clone.style.flexShrink = '0';
       wrapper.appendChild(clone);
