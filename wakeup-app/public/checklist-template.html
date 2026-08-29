@@ -51,6 +51,13 @@ h1{font-family:'Manrope',sans-serif;font-size:42px;font-weight:800;letter-spacin
 .loc-expansion{color:var(--brand2);background:rgba(63,121,255,.14);}
 .loc-pullback{color:var(--amber);background:var(--amber-dim);}
 .ring-card{position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center;}
+.poi-ring-wrap{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 16px 10px 10px;}
+.poi-checklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;}
+.poi-checklist li{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--text-disabled);transition:color .2s ease;white-space:nowrap;}
+.poi-checklist li.done{color:var(--text);}
+.poi-check-icon{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--text-disabled);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;transition:all .2s ease;}
+.poi-checklist li.done .poi-check-icon{border-color:var(--teal);background:var(--teal);color:#0A0618;}
+.poi-checklist li.done .poi-check-icon::after{content:"✓";}
 .mini-dl-btn{position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;background:var(--panel);border:1px solid var(--border);color:var(--brand2);font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin:0;z-index:5;opacity:.75;transition:opacity .15s ease,transform .15s ease;}
 .mini-dl-btn:hover{opacity:1;transform:scale(1.08);border-color:var(--brand2);}
 .mini-dl-btn:disabled{opacity:.4;cursor:default;transform:none;}
@@ -328,6 +335,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       <div class="ring-center"><div class="ring-pct" id="ring-ciclodiario-pct">0%</div><div class="ring-label">Ciclo Diario</div></div>
       <button type="button" class="mini-dl-btn" data-capture="card-ciclodiario" data-filename="ciclo-diario" title="Descargar imagen">⬇</button>
     </div>
+    <div class="poi-ring-wrap" id="wrap-poi-ext">
     <div class="ring-card" id="card-poi-ext">
       <svg viewBox="0 0 120 120">
         <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4F7CFF" stroke-dasharray="52.36 261.8" transform="rotate(0 60 60)"></circle>
@@ -346,6 +354,16 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       <div class="ring-center"><div class="ring-pct" id="ring-poi-ext-pct">0%</div><div class="ring-label">Calidad POI ext.</div></div>
       <button type="button" class="mini-dl-btn" data-capture="card-poi-ext" data-filename="calidad-poi-externa" title="Descargar imagen">⬇</button>
     </div>
+    <ul class="poi-checklist" id="checklist-poi-ext">
+      <li data-item="poiPadreRifc"><span class="poi-check-icon"></span>RIFC</li>
+      <li data-item="poiPadreLiqPrev"><span class="poi-check-icon"></span>Liq. previa</li>
+      <li data-item="poiPadreImbalance"><span class="poi-check-icon"></span>Imbalance</li>
+      <li data-item="poiPadreLiqPend"><span class="poi-check-icon"></span>Liq. por inducir</li>
+      <li data-item="poiPadreKeyLevel"><span class="poi-check-icon"></span>Key Level</li>
+      <li data-item="poiPadreEma"><span class="poi-check-icon"></span>EMA</li>
+    </ul>
+    </div>
+    <div class="poi-ring-wrap" id="wrap-poi-int">
     <div class="ring-card" id="card-poi-int">
       <svg viewBox="0 0 120 120">
         <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4F7CFF" stroke-dasharray="52.36 261.8" transform="rotate(0 60 60)"></circle>
@@ -364,6 +382,16 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       <div class="ring-center"><div class="ring-pct" id="ring-poi-int-pct">0%</div><div class="ring-label">Calidad POI int.</div></div>
       <button type="button" class="mini-dl-btn" data-capture="card-poi-int" data-filename="calidad-poi-interna" title="Descargar imagen">⬇</button>
     </div>
+    <ul class="poi-checklist" id="checklist-poi-int">
+      <li data-item="poiHijoRifc"><span class="poi-check-icon"></span>RIFC</li>
+      <li data-item="poiHijoLiqPrev"><span class="poi-check-icon"></span>Liq. previa</li>
+      <li data-item="poiHijoImbalance"><span class="poi-check-icon"></span>Imbalance</li>
+      <li data-item="poiHijoLiqPend"><span class="poi-check-icon"></span>Liq. por inducir</li>
+      <li data-item="poiHijoKeyLevel"><span class="poi-check-icon"></span>Key Level</li>
+      <li data-item="poiHijoEma"><span class="poi-check-icon"></span>EMA</li>
+    </ul>
+    </div>
+    <div class="poi-ring-wrap" id="wrap-poi-nieto">
     <div class="ring-card" id="card-poi-nieto">
       <svg viewBox="0 0 120 120">
         <circle class="ring-seg-bg" cx="60" cy="60" r="50" stroke="#4F7CFF" stroke-dasharray="52.36 261.8" transform="rotate(0 60 60)"></circle>
@@ -381,6 +409,15 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       </svg>
       <div class="ring-center"><div class="ring-pct" id="ring-poi-nieto-pct">0%</div><div class="ring-label">Calidad POI sub</div></div>
       <button type="button" class="mini-dl-btn" data-capture="card-poi-nieto" data-filename="calidad-poi-sub" title="Descargar imagen">⬇</button>
+    </div>
+    <ul class="poi-checklist" id="checklist-poi-nieto">
+      <li data-item="poiNietoRifc"><span class="poi-check-icon"></span>RIFC</li>
+      <li data-item="poiNietoLiqPrev"><span class="poi-check-icon"></span>Liq. previa</li>
+      <li data-item="poiNietoImbalance"><span class="poi-check-icon"></span>Imbalance</li>
+      <li data-item="poiNietoLiqPend"><span class="poi-check-icon"></span>Liq. por inducir</li>
+      <li data-item="poiNietoKeyLevel"><span class="poi-check-icon"></span>Key Level</li>
+      <li data-item="poiNietoEma"><span class="poi-check-icon"></span>EMA</li>
+    </ul>
     </div>
   </div>
 
@@ -910,6 +947,10 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       <div class="stat-bar-row">
         <div class="stat"><span>Objetivo</span><b id="s-liquidez" style="display:none;">0/25</b></div>
         <div class="stat-bar"><div class="stat-bar-fill" id="s-liquidez-bar" style="width:0%;background:var(--teal);"></div></div>
+      </div>
+      <div class="stat-bar-row">
+        <div class="stat"><span>Ciclo Diario</span></div>
+        <div class="stat-bar"><div class="stat-bar-fill" id="s-ciclodiario-bar" style="width:0%;background:var(--brand2);"></div></div>
       </div>
       <div class="stat-bar-row">
         <div class="stat"><span>Ciclo de Inducción</span><b id="s-induccion" style="display:none;">0/25</b></div>
@@ -1735,6 +1776,7 @@ function render(){
   const diaCount = [state.diaAsiaPaso, state.diaLondresPaso, state.diaNyPaso].filter(Boolean).length;
   document.getElementById('ring-ciclodiario-pct').textContent = Math.round((diaCount/3)*100)+'%';
   document.getElementById('ciclodiario-progress-fill').style.width = Math.round((diaCount/3)*100)+'%';
+  document.getElementById('s-ciclodiario-bar').style.width = Math.round((diaCount/3)*100)+'%';
   document.getElementById('card-ciclodiario').style.display = diaCount>0 ? '' : 'none';
 
   const SIXTH = 52.36;
@@ -1753,12 +1795,15 @@ function render(){
   document.getElementById('ring-poi-ext-mini-pct').textContent = poiExtPct;
   document.getElementById('ring-poi-int-mini-pct').textContent = poiIntPct;
   document.getElementById('ring-poi-nieto-mini-pct').textContent = poiSubPct;
-  document.getElementById('card-poi-ext').style.display = poiExtCount>0 ? '' : 'none';
-  document.getElementById('card-poi-int').style.display = poiIntCount>0 ? '' : 'none';
-  document.getElementById('card-poi-nieto').style.display = poiSubCount>0 ? '' : 'none';
+  document.getElementById('wrap-poi-ext').style.display = poiExtCount>0 ? '' : 'none';
+  document.getElementById('wrap-poi-int').style.display = poiIntCount>0 ? '' : 'none';
+  document.getElementById('wrap-poi-nieto').style.display = poiSubCount>0 ? '' : 'none';
   document.getElementById('mini-ring-poi-ext-wrap').style.display = poiExtCount>0 ? '' : 'none';
   document.getElementById('mini-ring-poi-int-wrap').style.display = poiIntCount>0 ? '' : 'none';
   document.getElementById('mini-ring-poi-nieto-wrap').style.display = poiSubCount>0 ? '' : 'none';
+  document.querySelectorAll('#checklist-poi-ext li, #checklist-poi-int li, #checklist-poi-nieto li').forEach(li => {
+    li.classList.toggle('done', !!state[li.dataset.item]);
+  });
   poiExtItems.forEach((v,i)=>{ setArc('seg-poi-ext-'+(i+1), v ? SIXTH : 0); setArc('seg-poi-ext-mini-'+(i+1), v ? SIXTH : 0); });
   poiIntItems.forEach((v,i)=>{ setArc('seg-poi-int-'+(i+1), v ? SIXTH : 0); setArc('seg-poi-int-mini-'+(i+1), v ? SIXTH : 0); });
   poiSubItems.forEach((v,i)=>{ setArc('seg-poi-nieto-'+(i+1), v ? SIXTH : 0); setArc('seg-poi-nieto-mini-'+(i+1), v ? SIXTH : 0); });
@@ -1988,7 +2033,7 @@ document.getElementById('downloadImgBtn').addEventListener('click', async ()=>{
   wrapEstructura.innerHTML = '';
   wrapRings.innerHTML = '';
   const idsEstructura = ['card-impulso-externa', 'ld-inner-wrap', 'ld-nieto-wrap'];
-  const idsRings = ['card-induccion', 'card-ciclodiario', 'card-poi-ext', 'card-poi-int', 'card-poi-nieto'];
+  const idsRings = ['card-induccion', 'card-ciclodiario', 'wrap-poi-ext', 'wrap-poi-int', 'wrap-poi-nieto'];
   function clonarIndicador(id, destino, scale){
     const original = document.getElementById(id);
     if(!original) return;
