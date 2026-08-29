@@ -1,3 +1,11 @@
+// Guardar este archivo como: app/api/proxy-image/route.ts
+// (crear la carpeta "proxy-image" dentro de app/api si no existe)
+//
+// Qué hace: recibe un link externo de imagen (?url=...), la busca desde
+// el servidor (ahí no aplica la restricción de CORS del navegador), y se
+// la devuelve al frontend con los permisos necesarios para que
+// html2canvas pueda usarla al generar la imagen del caso.
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -20,7 +28,11 @@ export async function GET(req: NextRequest) {
 
   try {
     const imgRes = await fetch(parsed.toString(), {
-      headers: { "User-Agent": "Mozilla/5.0 (WakeupDashboard ImageProxy)" },
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "Referer": parsed.origin + "/",
+      },
     });
 
     if (!imgRes.ok) {
