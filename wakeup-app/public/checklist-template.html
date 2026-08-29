@@ -803,6 +803,10 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
       <div class="pillar" data-pillar="liquidez">
         <div class="pillar-head"><div class="pillar-num">04</div><div class="pillar-title">Objetivo</div><div class="pillar-tag">obligatorio</div></div>
         <div class="pillar-body">
+          <div class="stat-bar-row">
+            <div class="stat"><span>Objetivo</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" id="objetivo-progress-fill" style="width:0%;background:var(--teal);"></div></div>
+          </div>
           <div class="row"><label>Liquidez opuesta</label>
             <select data-k="liqTipoTrade"><option>Sin definir</option><option>Pro tendencia</option><option>Contra tendencia</option></select>
           </div>
@@ -1705,6 +1709,7 @@ function render(){
   document.getElementById('s-estructura-bar').style.width = Math.min(100, (r.sEstr/weights.estructura)*100)+'%';
   document.getElementById('s-poi-bar').style.width = Math.min(100, (r.sPoi/weights.poi)*100)+'%';
   document.getElementById('s-liquidez-bar').style.width = Math.min(100, (r.sLiq/weights.liquidez)*100)+'%';
+  document.getElementById('objetivo-progress-fill').style.width = Math.min(100, (r.sLiq/weights.liquidez)*100)+'%';
   document.getElementById('s-induccion-bar').style.width = Math.min(100, (r.sInd/weights.induccion)*100)+'%';
   document.getElementById('tsNow').textContent = new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit'});
 
