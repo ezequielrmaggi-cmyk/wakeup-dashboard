@@ -167,11 +167,11 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
 </head>
 <body>
   <nav class="floating-nav" id="floating-nav">
-    <button type="button" class="floating-nav-btn" data-goto="estructura">Estructura</button>
+    <button type="button" class="floating-nav-btn" data-goto="estructura">Ciclo de Estructura</button>
     <button type="button" class="floating-nav-btn" data-goto="poi">POI</button>
-    <button type="button" class="floating-nav-btn" data-goto="liquidez">Objetivo</button>
     <button type="button" class="floating-nav-btn" data-goto="ciclodiario">Ciclo Diario</button>
-    <button type="button" class="floating-nav-btn" data-goto="induccion">Inducción</button>
+    <button type="button" class="floating-nav-btn" data-goto="liquidez">Objetivo</button>
+    <button type="button" class="floating-nav-btn" data-goto="induccion">Ciclo de Inducción</button>
   </nav>
 <div class="wrap">
   <div class="title-row">
@@ -602,6 +602,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
               <label class="chk"><input type="checkbox" data-k="poiPadreLiqPrev"> Tomó liquidez previa</label>
               <label class="chk"><input type="checkbox" data-k="poiPadreImbalance"> Tiene imbalance posterior</label>
               <label class="chk"><input type="checkbox" data-k="poiPadreLiqPend"> Tiene liquidez por inducir previo a la mitigación</label>
+              <div class="poi-detail-tag" style="margin-top:6px;">Confluencias extra</div>
               <label class="chk"><input type="checkbox" data-k="poiPadreKeyLevel"> Key Level</label>
               <div class="poi-detail" id="detail-padre-keylevel" style="display:none;">
                 <label><input type="checkbox" data-k="poiPadreKlAsia"> Asia (A/B/M)</label>
@@ -609,15 +610,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 <label><input type="checkbox" data-k="poiPadreKlAyer"> Ayer (A/B)</label>
               </div>
               <label class="chk"><input type="checkbox" data-k="poiPadreEma"> EMA</label>
-              <div class="poi-detail" id="detail-padre-ema" style="display:none;">
-                <div class="poi-detail-group">
-                  <span class="poi-detail-tag">Período</span>
-                  <label><input type="checkbox" data-k="poiPadreEma20"> 20</label>
-                  <label><input type="checkbox" data-k="poiPadreEma50"> 50</label>
-                  <label><input type="checkbox" data-k="poiPadreEma100"> 100</label>
-                  <label><input type="checkbox" data-k="poiPadreEma200"> 200</label>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -695,6 +687,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                 <label class="chk"><input type="checkbox" data-k="poiHijoLiqPrev"> Tomó liquidez previa</label>
                 <label class="chk"><input type="checkbox" data-k="poiHijoImbalance"> Tiene imbalance posterior</label>
                 <label class="chk"><input type="checkbox" data-k="poiHijoLiqPend"> Tiene liquidez por inducir previo a la mitigación</label>
+                <div class="poi-detail-tag" style="margin-top:6px;">Confluencias extra</div>
                 <label class="chk"><input type="checkbox" data-k="poiHijoKeyLevel"> Key Level</label>
                 <div class="poi-detail" id="detail-hijo-keylevel" style="display:none;">
                   <label><input type="checkbox" data-k="poiHijoKlAsia"> Asia (A/B/M)</label>
@@ -702,15 +695,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                   <label><input type="checkbox" data-k="poiHijoKlAyer"> Ayer (A/B)</label>
                 </div>
                 <label class="chk"><input type="checkbox" data-k="poiHijoEma"> EMA</label>
-                <div class="poi-detail" id="detail-hijo-ema" style="display:none;">
-                  <div class="poi-detail-group">
-                    <span class="poi-detail-tag">Período</span>
-                    <label><input type="checkbox" data-k="poiHijoEma20"> 20</label>
-                    <label><input type="checkbox" data-k="poiHijoEma50"> 50</label>
-                    <label><input type="checkbox" data-k="poiHijoEma100"> 100</label>
-                    <label><input type="checkbox" data-k="poiHijoEma200"> 200</label>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -788,6 +772,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                   <label class="chk"><input type="checkbox" data-k="poiNietoLiqPrev"> Tomó liquidez previa</label>
                   <label class="chk"><input type="checkbox" data-k="poiNietoImbalance"> Tiene imbalance posterior</label>
                   <label class="chk"><input type="checkbox" data-k="poiNietoLiqPend"> Tiene liquidez por inducir previo a la mitigación</label>
+                  <div class="poi-detail-tag" style="margin-top:6px;">Confluencias extra</div>
                   <label class="chk"><input type="checkbox" data-k="poiNietoKeyLevel"> Key Level</label>
                   <div class="poi-detail" id="detail-nieto-keylevel" style="display:none;">
                     <label><input type="checkbox" data-k="poiNietoKlAsia"> Asia (A/B/M)</label>
@@ -795,15 +780,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
                     <label><input type="checkbox" data-k="poiNietoKlAyer"> Ayer (A/B)</label>
                   </div>
                   <label class="chk"><input type="checkbox" data-k="poiNietoEma"> EMA</label>
-                  <div class="poi-detail" id="detail-nieto-ema" style="display:none;">
-                    <div class="poi-detail-group">
-                      <span class="poi-detail-tag">Período</span>
-                      <label><input type="checkbox" data-k="poiNietoEma20"> 20</label>
-                      <label><input type="checkbox" data-k="poiNietoEma50"> 50</label>
-                      <label><input type="checkbox" data-k="poiNietoEma100"> 100</label>
-                      <label><input type="checkbox" data-k="poiNietoEma200"> 200</label>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -811,8 +787,21 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
         </div>
       </div>
 
+      <div class="pillar" data-pillar="ciclodiario">
+        <div class="pillar-head"><div class="pillar-num">03</div><div class="pillar-title">Ciclo Diario</div><div class="pillar-tag">obligatorio</div></div>
+        <div class="pillar-body">
+          <div class="stat-bar-row">
+            <div class="stat"><span>Ciclo Diario</span></div>
+            <div class="stat-bar"><div class="stat-bar-fill" id="ciclodiario-progress-fill" style="width:0%;background:var(--brand1);"></div></div>
+          </div>
+          <label class="chk"><input type="checkbox" data-k="diaAsiaPaso"><span class="stage-dot i1"></span> Rango Asiático</label>
+          <label class="chk"><input type="checkbox" data-k="diaLondresPaso"><span class="stage-dot i2"></span> Open de Londres</label>
+          <label class="chk"><input type="checkbox" data-k="diaNyPaso"><span class="stage-dot i4"></span> Trampa de NY</label>
+        </div>
+      </div>
+
       <div class="pillar" data-pillar="liquidez">
-        <div class="pillar-head"><div class="pillar-num">03</div><div class="pillar-title">Objetivo</div><div class="pillar-tag">obligatorio</div></div>
+        <div class="pillar-head"><div class="pillar-num">04</div><div class="pillar-title">Objetivo</div><div class="pillar-tag">obligatorio</div></div>
         <div class="pillar-body">
           <div class="row"><label>Liquidez opuesta</label>
             <select data-k="liqTipoTrade"><option>Sin definir</option><option>Pro tendencia</option><option>Contra tendencia</option></select>
@@ -834,19 +823,6 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
           </div>
 
           <p class="mission" id="liq-sin-definir-msg">Elegí "Pro tendencia" o "Contra tendencia" arriba para completar el checklist.</p>
-        </div>
-      </div>
-
-      <div class="pillar" data-pillar="ciclodiario">
-        <div class="pillar-head"><div class="pillar-num">04</div><div class="pillar-title">Ciclo Diario</div><div class="pillar-tag">obligatorio</div></div>
-        <div class="pillar-body">
-          <div class="stat-bar-row">
-            <div class="stat"><span>Ciclo Diario</span></div>
-            <div class="stat-bar"><div class="stat-bar-fill" id="ciclodiario-progress-fill" style="width:0%;background:var(--brand1);"></div></div>
-          </div>
-          <label class="chk"><input type="checkbox" data-k="diaAsiaPaso"><span class="stage-dot i1"></span> Rango Asiático</label>
-          <label class="chk"><input type="checkbox" data-k="diaLondresPaso"><span class="stage-dot i2"></span> Open de Londres</label>
-          <label class="chk"><input type="checkbox" data-k="diaNyPaso"><span class="stage-dot i4"></span> Trampa de NY</label>
         </div>
       </div>
 
@@ -945,12 +921,12 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
         <div class="stat-bar"><div class="stat-bar-fill" id="s-poi-bar" style="width:0%;background:var(--blue);"></div></div>
       </div>
       <div class="stat-bar-row">
-        <div class="stat"><span>Objetivo</span><b id="s-liquidez" style="display:none;">0/25</b></div>
-        <div class="stat-bar"><div class="stat-bar-fill" id="s-liquidez-bar" style="width:0%;background:var(--teal);"></div></div>
-      </div>
-      <div class="stat-bar-row">
         <div class="stat"><span>Ciclo Diario</span></div>
         <div class="stat-bar"><div class="stat-bar-fill" id="s-ciclodiario-bar" style="width:0%;background:var(--brand2);"></div></div>
+      </div>
+      <div class="stat-bar-row">
+        <div class="stat"><span>Objetivo</span><b id="s-liquidez" style="display:none;">0/25</b></div>
+        <div class="stat-bar"><div class="stat-bar-fill" id="s-liquidez-bar" style="width:0%;background:var(--teal);"></div></div>
       </div>
       <div class="stat-bar-row">
         <div class="stat"><span>Ciclo de Inducción</span><b id="s-induccion" style="display:none;">0/25</b></div>
@@ -1714,7 +1690,6 @@ function render(){
     document.getElementById('poi-star-keylevel-'+prefix).setAttribute('opacity', state[keyLevelKey] ? '1' : '0');
     document.getElementById('poi-star-ema-'+prefix).setAttribute('opacity', state[emaKey] ? '1' : '0');
     document.getElementById('detail-'+prefix+'-keylevel').style.display = state[keyLevelKey] ? 'flex' : 'none';
-    document.getElementById('detail-'+prefix+'-ema').style.display = state[emaKey] ? 'flex' : 'none';
   }
   updatePoiDiagram('padre','poiPadreUbic','poiPadreRifc','poiPadreLiqPrev','poiPadreLiqPend','poiPadreImbalance');
   updatePoiDiagram('hijo','poiHijoUbic','poiHijoRifc','poiHijoLiqPrev','poiHijoLiqPend','poiHijoImbalance');
