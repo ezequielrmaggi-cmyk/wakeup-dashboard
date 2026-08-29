@@ -2067,16 +2067,18 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
       if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
-  function updateActiveNav(){
-    let currentIdx = 0;
-    sections.forEach((sec, i) => {
-      const rect = sec.getBoundingClientRect();
-      if(rect.top <= 140) currentIdx = i;
+  if(sections.length === 0) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const idx = sections.indexOf(entry.target);
+        if(idx === -1) return;
+        navBtns.forEach((btn, i) => btn.classList.toggle('active', i === idx));
+      }
     });
-    navBtns.forEach((btn, i) => btn.classList.toggle('active', i === currentIdx));
-  }
-  window.addEventListener('scroll', updateActiveNav, {passive:true});
-  updateActiveNav();
+  }, { root: null, rootMargin: '-120px 0px -65% 0px', threshold: 0 });
+  sections.forEach(sec => observer.observe(sec));
+  navBtns[0].classList.add('active');
 })();
 
 render();
