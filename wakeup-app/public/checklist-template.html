@@ -184,15 +184,9 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
   </div>
   <div id="user-watermark" style="position:fixed;top:8px;right:12px;font-size:10px;color:#716B89;opacity:.55;z-index:40;pointer-events:none;font-family:'Manrope',sans-serif;"></div>
   <nav class="floating-nav" id="floating-nav">
-    <button type="button" class="floating-nav-btn" data-goto="estructura">Ciclo de Estructura</button>
-    <button type="button" class="floating-nav-btn" data-goto="poi">POI</button>
-    <button type="button" class="floating-nav-btn" data-goto="ciclodiario">Ciclo Diario</button>
-    <button type="button" class="floating-nav-btn" data-goto="liquidez">Objetivo</button>
-    <button type="button" class="floating-nav-btn" data-goto="proyeccion">Proyección de Idea</button>
-    <button type="button" class="floating-nav-btn" data-goto="induccion">Ciclo de Inducción</button>
-    <button type="button" class="floating-nav-btn" data-goto="modeloentrada">Modelo de Entrada</button>
-    <button type="button" class="floating-nav-btn" data-goto="resultado">Resultado y Reflexión</button>
-    <button type="button" class="floating-nav-btn" data-goto="mejoras">Oportunidad de mejoras</button>
+    <button type="button" class="floating-nav-btn" data-goto="fase-antes">Antes</button>
+    <button type="button" class="floating-nav-btn" data-goto="fase-durante">Durante</button>
+    <button type="button" class="floating-nav-btn" data-goto="fase-despues">Después</button>
     <button type="button" class="floating-nav-btn" data-goto="historial">Mi historial</button>
   </nav>
 <div class="wrap">
@@ -447,7 +441,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
 
   <div class="grid">
     <div>
-      <div class="phase-divider"><span class="phase-divider-label">Antes</span><span class="phase-divider-title">Análisis de Contexto</span></div>
+      <div class="phase-divider" data-pillar="fase-antes"><span class="phase-divider-label">Antes</span><span class="phase-divider-title">Análisis de Contexto</span></div>
 
       <div class="pillar" data-pillar="estructura">
         <div class="pillar-head"><div class="pillar-num">01</div><div class="pillar-title">Ciclo de Estructura</div><div class="pillar-tag">obligatorio</div></div>
@@ -1206,7 +1200,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
         </div>
       </div>
 
-      <div class="phase-divider"><span class="phase-divider-label">Durante</span><span class="phase-divider-title">Validando la Idea</span></div>
+      <div class="phase-divider" data-pillar="fase-durante"><span class="phase-divider-label">Durante</span><span class="phase-divider-title">Validando la Idea</span></div>
 
       <div class="pillar" data-pillar="induccion">
         <div class="pillar-head"><div class="pillar-num">05</div><div class="pillar-title">Ciclo de Inducción</div><div class="pillar-tag">obligatorio</div></div>
@@ -1397,7 +1391,7 @@ summary{cursor:pointer;font-size:12px;color:var(--brand1);margin-bottom:8px;}
         </div>
       </div>
 
-      <div class="phase-divider"><span class="phase-divider-label">Después</span><span class="phase-divider-title">Resultado y reflexión</span></div>
+      <div class="phase-divider" data-pillar="fase-despues"><span class="phase-divider-label">Después</span><span class="phase-divider-title">Resultado y reflexión</span></div>
 
       <div class="pillar" data-pillar="resultado">
         <div class="pillar-head"><div class="pillar-num">✓</div><div class="pillar-title">Resultado y Reflexión</div><div class="pillar-tag">opcional</div></div>
